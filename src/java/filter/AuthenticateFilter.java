@@ -23,11 +23,6 @@ public class AuthenticateFilter implements Filter {
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
         log.info("do before processing..");
-        Properties properties = PropertiesReader.getProps();
-        for (String key : properties.stringPropertyNames()) {
-            String value = properties.getProperty(key);
-            log.info(key + " => " + value);
-        }
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
@@ -51,15 +46,30 @@ public class AuthenticateFilter implements Filter {
     public void destroy() {
     }
 
+    private void props() {
+        log.info("properties file:");
+        Properties properties = PropertiesReader.getProps();
+        StringBuilder sb = new StringBuilder();
+        for (String key : properties.stringPropertyNames()) {
+            String value = properties.getProperty(key);
+            sb.append("\n" + key + " => " + value);
+        }
+        log.info(sb.toString());
+    }
+
     @Override
     public void init(FilterConfig filterConfig) {
         log.info("init");
+
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             log.info("SessionCheckFilter:Initializing filter");
         } else {
             log.warning("null filterConfig");
         }
+
+        props();
+
     }
 
     @Override
