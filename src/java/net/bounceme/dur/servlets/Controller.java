@@ -28,13 +28,12 @@ public class Controller extends HttpServlet {
     private String dispatcherLogic(HttpSession session) {
         Properties p = PropertiesReader.getProps();
         MyToken t = (MyToken) session.getAttribute("token");
-        try {
+        if (t!=null){
             t.setAuthenticated(p.containsValue(t.getName()));
-        } catch (NullPointerException npe) {
-            log.warning("npe..." + npe);
-            log.info(p.toString());
-            log.info(t.toString());
+        } else {
+            t = new MyToken();
         }
+        log.info(t.toString());
         session.setAttribute("token", t);
         if (t.isAuthenticated()) {
             return "success.jsp";

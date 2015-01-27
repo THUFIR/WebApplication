@@ -55,4 +55,8 @@ public class MyToken {//should probably be immutable...
         this.attemptedLogin = attemptedLogin;
     }
 
+    @Override
+    public String toString() {
+        return name + authenticated + attemptedLogin;
+    }
 }
