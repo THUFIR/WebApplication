@@ -6,7 +6,7 @@ public class MyToken {//should probably be immutable...
 
     private static Logger log = Logger.getLogger(MyToken.class.getName());
 
-    private String name = "nimo";
+    private String name = "nemo";
     private String role = "captain";
     private String password = "abc";
     private boolean authenticated = false;

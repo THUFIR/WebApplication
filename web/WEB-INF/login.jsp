@@ -6,7 +6,7 @@
         <title>login</title>
     </head>
     <body>
-        <form name="bar" action="userDetails.jsp" method="POST">
+        <form name="bar" action="controller" method="POST">
             name <input type="text" name="username" value="Jim" size='20' />
             <p>
                 <input type="submit">
