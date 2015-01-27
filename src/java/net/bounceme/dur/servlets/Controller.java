@@ -26,24 +26,27 @@ public class Controller extends HttpServlet {
     }
 
     private String dispatcherLogic(HttpSession session) {
-        Properties p = PropertiesReader.getProps();
-        MyToken t = (MyToken) session.getAttribute("token");
-        if (t!=null){
-            t.setAuthenticated(p.containsValue(t.getName()));
+        Properties properties = PropertiesReader.getProps();
+        MyToken token = (MyToken) session.getAttribute("token");
+        if (token!=null){
+            token.setAuthenticated(properties.containsValue(token.getName()));
         } else {
-            t = new MyToken();
+            token = new MyToken();
         }
-        log.info(t.toString());
-        session.setAttribute("token", t);
-        if (t.isAuthenticated()) {
+        log.info(token.toString());
+        session.setAttribute("token", token);
+        return "login.jsp";
+        /*
+        if (token.isAuthenticated()) {
             return "success.jsp";
         } else {
-            if (t.isAttemptedLogin()) {
-                return "success.jsp";
+            if (token.isAttemptedLogin()) {
+                return "fail.jsp";
             } else {
-                return "success.jsp";
+                return "login.jsp";
             }
         }
+                */
     }
 
     private String dispatcherLogic0(HttpSession session) {
