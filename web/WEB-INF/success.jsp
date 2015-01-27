@@ -6,7 +6,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>success</h1>
         <jsp:useBean id="userinfo" class="beginnersbook.com.Details"></jsp:useBean> 
         <jsp:setProperty property="*" name="userinfo"/> 
         You have enterted below details:<br> 
