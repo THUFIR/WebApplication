@@ -20,4 +20,12 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <jsp-config>
+        <jsp-property-group>
+            <description>all</description>
+            <display-name>all</display-name>
+            <url-pattern>/*</url-pattern>
+            <scripting-invalid>true</scripting-invalid>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
