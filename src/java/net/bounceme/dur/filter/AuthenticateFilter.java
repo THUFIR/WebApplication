@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -19,32 +24,41 @@ public class AuthenticateFilter implements Filter {
 
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
+    private Map<String, String> mapOfUsers = new HashMap<>();
 
     public AuthenticateFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        log.info("do before processing..");
+        log.fine("do before processing..");
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        log.info("do after processing");
+        log.fine("do after processing");
+    }
+
+    private void makeMap() {
+        Enumeration<String> parmNamesEnum = filterConfig.getInitParameterNames();
+        List<String> keys = Collections.list(parmNamesEnum);
+        for (String s : keys) {
+            mapOfUsers.put(s, filterConfig.getInitParameter(s));
+        }
+        log.fine(mapOfUsers.toString());
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("do filter");
+        log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        log.info("Requested Resource::" + uri);
+        log.fine("Requested Resource::" + uri);
         HttpSession session = req.getSession(false);
-        if (session == null && !(uri.endsWith("html") || uri.endsWith("LoginServlet"))) {
-            log.warning("Unauthorized access request");
-            res.sendRedirect("/WEB-INF/" + "login.jsp");
-        } else {
-            chain.doFilter(request, response);
-        }
+        makeMap();  //debatable
+        String user = "nemo";
+        String message = mapOfUsers.containsValue(user) ? "hello " + user : "no " + user;
+        log.info(message);
+        chain.doFilter(request, response);
     }
 
     public FilterConfig getFilterConfig() {
@@ -61,11 +75,11 @@ public class AuthenticateFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("init");
+        log.fine("init");
 
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            log.info("SessionCheckFilter:Initializing filter");
+            log.fine("SessionCheckFilter:Initializing filter");
         } else {
             log.warning("null filterConfig");
         }
@@ -83,7 +97,7 @@ public class AuthenticateFilter implements Filter {
     }
 
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        log.info("send processing error");
+        log.fine("send processing error");
         String stackTrace = getStackTrace(t);
 
         if (stackTrace != null && !stackTrace.equals("")) {

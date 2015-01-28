@@ -14,13 +14,12 @@ public class Controller extends HttpServlet {
     private static final Logger log = Logger.getLogger(Controller.class.getName());
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.info("controller processing request..");
-        String myContextParam
-                = request.getSession().getServletContext().getInitParameter("name");
-        log.info(myContextParam);
+        log.fine("controller processing request..");
+        //String name = request.getSession().getServletContext().getInitParameter("name");
+        String name = request.getParameter("name");
+        log.info(name);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
