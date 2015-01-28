@@ -58,6 +58,9 @@ public class AuthenticateFilter implements Filter {
         String user = "nemo";
         String message = mapOfUsers.containsValue(user) ? "hello " + user : "no " + user;
         log.info(message);
+        request.setAttribute("user", user);
+        request.setAttribute("authenticated", false);
+        request.setAttribute("message", message);
         chain.doFilter(request, response);
     }
 

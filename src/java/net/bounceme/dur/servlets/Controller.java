@@ -16,8 +16,15 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
         //String name = request.getSession().getServletContext().getInitParameter("name");
-        String name = request.getParameter("name");
+        //  String name = request.getParameter("name");
+        //  String authenticated = request.getParameter("authenticated");
+        // String message = request.getParameter("message");
+        String name = (String) request.getAttribute("name");
+        boolean authenticated = (boolean) request.getAttribute("authenticated");
+        String message = (String) request.getAttribute("message");
         log.info(name);
+        log.info("auth" + authenticated);
+        log.info(message);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 
