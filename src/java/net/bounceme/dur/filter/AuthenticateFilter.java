@@ -34,7 +34,7 @@ public class AuthenticateFilter implements Filter {
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        log.fine("do after processing");
+        log.fine("do after processing");  //add image here?
     }
 
     private void makeMap() {
@@ -54,12 +54,15 @@ public class AuthenticateFilter implements Filter {
         String uri = req.getRequestURI();
         log.fine("Requested Resource::" + uri);
         HttpSession session = req.getSession(false);
-        makeMap();  //debatable
+        makeMap();  //debatable  and maybe should be in init?  only should run once.
         String user = "nemo";
         String message = mapOfUsers.containsValue(user) ? "hello " + user : "no " + user;
-        log.info(message);
+        boolean authenticated = false;
+        log.info("filter user is\t\t\t" + message);
+        log.info("filter authenticated is\t\t" + authenticated);
+        log.info("filter message is\t\t" + message);
         request.setAttribute("user", user);
-        request.setAttribute("authenticated", false);
+        request.setAttribute("authenticated", authenticated);
         request.setAttribute("message", message);
         chain.doFilter(request, response);
     }
