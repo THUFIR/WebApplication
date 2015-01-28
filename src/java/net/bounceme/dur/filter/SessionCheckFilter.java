@@ -1,4 +1,4 @@
-package filter;
+package net.bounceme.dur.filter;
 
 
 import java.io.IOException;

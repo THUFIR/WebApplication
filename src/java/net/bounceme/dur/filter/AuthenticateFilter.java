@@ -1,6 +1,5 @@
 package net.bounceme.dur.filter;
 
-import filter.PropertiesReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -47,17 +46,6 @@ public class AuthenticateFilter implements Filter {
     public void destroy() {
     }
 
-    private void props() {
-        log.info("properties file:");
-        Properties properties = PropertiesReader.getProps();
-        StringBuilder sb = new StringBuilder();
-        for (String key : properties.stringPropertyNames()) {
-            String value = properties.getProperty(key);
-            sb.append("\n" + key + " => " + value);
-        }
-        log.info(sb.toString());
-    }
-
     @Override
     public void init(FilterConfig filterConfig) {
         log.info("init");
@@ -68,9 +56,6 @@ public class AuthenticateFilter implements Filter {
         } else {
             log.warning("null filterConfig");
         }
-
-        props();
-
     }
 
     @Override
