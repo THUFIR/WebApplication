@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Properties;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +11,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AuthenticateFilter implements Filter {
 
@@ -32,6 +34,17 @@ public class AuthenticateFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("do filter");
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        String uri = req.getRequestURI();
+        log.info("Requested Resource::" + uri);
+        HttpSession session = req.getSession(false);
+        if (session == null && !(uri.endsWith("html") || uri.endsWith("LoginServlet"))) {
+            log.warning("Unauthorized access request");
+            res.sendRedirect("/WEB-INF/" + "login.jsp");
+        } else {
+            chain.doFilter(request, response);
+        }
     }
 
     public FilterConfig getFilterConfig() {
