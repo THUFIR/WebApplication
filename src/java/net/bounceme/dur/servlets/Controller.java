@@ -21,6 +21,9 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("controller processing request..");
+        String myContextParam
+                = request.getSession().getServletContext().getInitParameter("name");
+        log.info(myContextParam);
         String jsp = dispatcherLogic(request.getSession());
         request.getRequestDispatcher("/WEB-INF/" + jsp).forward(request, response);
     }
@@ -28,15 +31,13 @@ public class Controller extends HttpServlet {
     private String dispatcherLogic(HttpSession session) {
         Properties properties = PropertiesReader.getProps();
         MyToken token = (MyToken) session.getAttribute("token");
-        if (token!=null){
+        if (token != null) {
             token.setAuthenticated(properties.containsValue(token.getName()));
         } else {
             token = new MyToken();
         }
         log.info(token.toString());
         session.setAttribute("token", token);
-        return "login.jsp";
-        /*
         if (token.isAuthenticated()) {
             return "success.jsp";
         } else {
@@ -46,7 +47,6 @@ public class Controller extends HttpServlet {
                 return "login.jsp";
             }
         }
-                */
     }
 
     private String dispatcherLogic0(HttpSession session) {

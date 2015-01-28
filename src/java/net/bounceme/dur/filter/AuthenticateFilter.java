@@ -1,5 +1,6 @@
-package filter;  //change pkg
+package net.bounceme.dur.filter;
 
+import filter.PropertiesReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
