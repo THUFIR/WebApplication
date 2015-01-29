@@ -53,18 +53,23 @@ public class AuthenticateFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
         log.fine("Requested Resource::" + uri);
-     //   HttpSession session = req.getSession(false);
+        //   HttpSession session = req.getSession(false);
         makeMap();  //debatable  and maybe should be in init?  only should run once.
-       // String user = (String) request.getAttribute("user");
+        // String user = (String) request.getAttribute("user");
         String name = (String) request.getAttribute("name");
         String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
-        boolean authenticated = false;
+        boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
+        boolean firstAttempt = (name == null) ? true : false;
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);
-     //   request.setAttribute("user", user);
+        //   request.setAttribute("user", user);
+        if (firstAttempt) {
+            message = "";
+        }
         request.setAttribute("authenticated", authenticated);
         request.setAttribute("message", message);
+        request.setAttribute("firstAttempt", firstAttempt);
         chain.doFilter(request, response);
     }
 
