@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,12 +12,6 @@
                 <input type="submit">
             </p>
         </form>
-        <c:out value="${sessionScope[name]}"/>   
-        <c:out value="${sessionScope[user]}"/>
-        <c:out value="${sessionScope[message]}"/>
-        <c:out value="${request.getParameter[message]}"/>
         ${requestScope.name}
-        ${requestScope.user}
-        ${requestScope.message}
     </body>
 </html>
