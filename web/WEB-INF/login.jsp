@@ -6,6 +6,7 @@
         <title>login</title>
     </head>
     <body>
+        my name is ${requestScope.me}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             name <input type="text" name="name" value="skinner" size='20' />
             <p>

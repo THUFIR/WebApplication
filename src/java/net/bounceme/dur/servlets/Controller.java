@@ -22,9 +22,11 @@ public class Controller extends HttpServlet {
         request.setAttribute("name", name); //even worse
         boolean authenticated = (boolean) request.getAttribute("authenticated");
         String message = (String) request.getAttribute("message");
+        String me = (String) request.getAttribute("me");
         log.info("controller user is\t\t" + message);
         log.info("controller authenticated is\t" + authenticated);
         log.info("controller message is\t\t" + message);
+        log.info("controller me is\t\t" + me);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 

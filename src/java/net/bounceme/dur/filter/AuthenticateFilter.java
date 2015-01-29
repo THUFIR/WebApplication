@@ -1,6 +1,12 @@
 package net.bounceme.dur.filter;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -18,7 +24,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class AuthenticateFilter implements Filter {
 
@@ -53,26 +58,81 @@ public class AuthenticateFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
         log.fine("Requested Resource::" + uri);
-        //   HttpSession session = req.getSession(false);
         makeMap();  //debatable  and maybe should be in init?  only should run once.
-        // String user = (String) request.getAttribute("user");
         String name = (String) request.getAttribute("name");
         String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
+        String myName = request.getServletContext().getInitParameter("me");
+        String myId = request.getServletContext().getInitParameter("id");
+        String me = "my name is " + myName + " " + myId;
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
-        boolean firstAttempt = (name == null) ? true : false;
+        message = authenticated ? "hello " + name : "";
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);
-        //   request.setAttribute("user", user);
-        if (firstAttempt) {
-            message = "";
-        }
+        request.setAttribute("me", me);
         request.setAttribute("authenticated", authenticated);
         request.setAttribute("message", message);
-        request.setAttribute("firstAttempt", firstAttempt);
         chain.doFilter(request, response);
     }
 
+    /*
+     private void fileBytes(ServletResponse response) throws FileNotFoundException, IOException {
+     String path = null;
+     InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
+     OutputStream outputStream = response.getOutputStream();
+     byte[] bytes = new byte[1024 * 2];
+     int bytesRead = -1;
+     while ((bytesRead = inputStream.read(bytes)) != -1) {
+     outputStream.write(bytes, 0, bytesRead);
+     }
+     outputStream.flush();
+
+     InputStream inputStream = null;
+     try {
+     inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
+     } catch (NullPointerException npe) {
+     log.info(npe.toString());
+     }
+     OutputStream outputStream = response.getOutputStream();
+     byte[] bytes = new byte[1024 * 2];
+     int bytesRead = -1;
+     try {
+     while ((bytesRead = inputStream.read(bytes)) != -1) {
+     outputStream.write(bytes, 0, bytesRead);
+     }
+     } catch (NullPointerException npe) {
+     }
+    
+    
+     String relativeWebPath = "WEB-INF/IMAGES/image1.jpg";
+     String absoluteDiskPath = request.getServletContext().getRealPath(relativeWebPath);
+
+     try {
+     File file = new File(absoluteDiskPath);
+     } catch (java.lang.NullPointerException npe) {
+     log.info("no file");
+     log.info(absoluteDiskPath);
+     }
+     String path = request.getServletContext().getRealPath(name + "gif");
+     InputStream input = request.getServletContext().getResourceAsStream(relativeWebPath);
+     InputStream inputStream = null;
+     try {
+     inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
+     } catch (NullPointerException npe) {
+     log.info(npe.toString());
+     }
+     OutputStream outputStream = response.getOutputStream();
+     byte[] bytes = new byte[1024 * 2];
+     int bytesRead = -1;
+     try {
+     while ((bytesRead = inputStream.read(bytes)) != -1) {
+     outputStream.write(bytes, 0, bytesRead);
+     }
+     } catch (NullPointerException npe) {
+     }
+     outputStream.flush();
+     }
+     */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
     }

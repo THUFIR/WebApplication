@@ -5,7 +5,7 @@
         <param-value>34562345</param-value>
     </context-param>
     <context-param>
-        <param-name>name</param-name>
+        <param-name>me</param-name>
         <param-value>thufir</param-value>
     </context-param>
     <filter>
