@@ -13,7 +13,12 @@
                 <input type="submit">
             </p>
         </form>
-    <c:set var="name" value="taintedAttribute" />
-    <c:out value="${sessionScope[name]}"/>
+        <c:out value="${sessionScope[name]}"/>   
+        <c:out value="${sessionScope[user]}"/>
+        <c:out value="${sessionScope[message]}"/>
+        <c:out value="${request.getParameter[message]}"/>
+        ${requestScope.name}
+        ${requestScope.user}
+        ${requestScope.message}
     </body>
 </html>

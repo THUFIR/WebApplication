@@ -41,7 +41,7 @@
             <description>all</description>
             <display-name>all</display-name>
             <url-pattern>/*</url-pattern>
-            <scripting-invalid>true</scripting-invalid>
+            <scripting-invalid>false</scripting-invalid>
         </jsp-property-group>
     </jsp-config>
 </web-app>
