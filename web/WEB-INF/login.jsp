@@ -6,7 +6,8 @@
         <title>login</title>
     </head>
     <body>
-        ${requestScope.duke}
+        <img src="${requestScope.duke}"> 
+       
         ${requestScope.me}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             name <input type="text" name="name" value="skinner" size='20' />
