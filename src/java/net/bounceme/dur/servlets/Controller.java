@@ -17,8 +17,8 @@ public class Controller extends HttpServlet {
         log.fine("controller processing request..");
         String name = request.getParameter("name");
         log.info("controller name is\t\t" + name);
-        String user = (String) request.getAttribute("user");
-        user = name; //?? bad idea
+      //  String user = (String) request.getAttribute("user");
+      //  user = name; //?? bad idea
         request.setAttribute("name", name); //even worse
         boolean authenticated = (boolean) request.getAttribute("authenticated");
         String message = (String) request.getAttribute("message");

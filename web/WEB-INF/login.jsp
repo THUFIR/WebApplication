@@ -13,5 +13,7 @@
             </p>
         </form>
         ${requestScope.name}
+        ${requestScope.message}
+        ${requestScope.authenticated}
     </body>
 </html>
