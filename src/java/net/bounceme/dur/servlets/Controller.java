@@ -27,6 +27,8 @@ public class Controller extends HttpServlet {
         log.info("controller authenticated is\t" + authenticated);
         log.info("controller message is\t\t" + message);
         log.info("controller me is\t\t" + me);
+        String duke = (String) request.getAttribute("duke");
+        log.info("controller duke is\t\t" + duke);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 

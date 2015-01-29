@@ -66,12 +66,18 @@ public class AuthenticateFilter implements Filter {
         String me = "my name is " + myName + " " + myId;
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
         message = authenticated ? "hello " + name : "";
+        
+       // String duke = request.getServletContext().getRealPath("/WEB-INF/images/duke.gif");
+        String duke = filterConfig.getServletContext().getRealPath("duke.gif");
+         duke = "/duke.gif";
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);
+        log.info("filter duke is\t\t\t" + duke);
         request.setAttribute("me", me);
         request.setAttribute("authenticated", authenticated);
         request.setAttribute("message", message);
+        request.setAttribute("duke", duke);
         chain.doFilter(request, response);
     }
 
