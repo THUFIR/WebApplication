@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
@@ -19,6 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.bounceme.dur.servlets.LogAttributesAndParameters;
 
 public class AuthenticateFilter implements Filter {
 
@@ -54,8 +54,6 @@ public class AuthenticateFilter implements Filter {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String uri = req.getRequestURI();
-        log.fine("Requested Resource::" + uri);
         String name = (String) request.getAttribute("name");
         try {
             name = name.toLowerCase();
@@ -80,11 +78,7 @@ public class AuthenticateFilter implements Filter {
         request.setAttribute("myId", myId);
         request.setAttribute("authenticated", authenticated);
         request.setAttribute("greeting", greeting);
-        log.info("filter myName is\t\t\t" + myName);
-        log.info("filter id is\t\t\t" + myId);
-        log.info("filter name is\t\t\t" + name);
-        log.info("filter authenticated is\t\t" + authenticated);
-        log.info("filter greeting is\t\t\t" + greeting);
+        LogAttributesAndParameters logRequest = new LogAttributesAndParameters((HttpServletRequest) request, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }
 
