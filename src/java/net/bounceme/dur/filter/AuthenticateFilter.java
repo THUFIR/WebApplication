@@ -67,9 +67,9 @@ public class AuthenticateFilter implements Filter {
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
         message = authenticated ? "hello " + name : "";
         //   String duke = request.getServletContext().getRealPath("//duke.gif");
-
         String duke = request.getServletContext().getRealPath("") + "\\" + "duke.gif";
-
+        duke = "WEB-INF/IMAGES/duke.gif";
+        duke = request.getServletContext().getResourcePaths("/") + "duke.gif";
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);
@@ -81,64 +81,6 @@ public class AuthenticateFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    /*
-     private void fileBytes(ServletResponse response) throws FileNotFoundException, IOException {
-     String path = null;
-     InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
-     OutputStream outputStream = response.getOutputStream();
-     byte[] bytes = new byte[1024 * 2];
-     int bytesRead = -1;
-     while ((bytesRead = inputStream.read(bytes)) != -1) {
-     outputStream.write(bytes, 0, bytesRead);
-     }
-     outputStream.flush();
-
-     InputStream inputStream = null;
-     try {
-     inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
-     } catch (NullPointerException npe) {
-     log.info(npe.toString());
-     }
-     OutputStream outputStream = response.getOutputStream();
-     byte[] bytes = new byte[1024 * 2];
-     int bytesRead = -1;
-     try {
-     while ((bytesRead = inputStream.read(bytes)) != -1) {
-     outputStream.write(bytes, 0, bytesRead);
-     }
-     } catch (NullPointerException npe) {
-     }
-    
-    
-     String relativeWebPath = "WEB-INF/IMAGES/image1.jpg";
-     String absoluteDiskPath = request.getServletContext().getRealPath(relativeWebPath);
-
-     try {
-     File file = new File(absoluteDiskPath);
-     } catch (java.lang.NullPointerException npe) {
-     log.info("no file");
-     log.info(absoluteDiskPath);
-     }
-     String path = request.getServletContext().getRealPath(name + "gif");
-     InputStream input = request.getServletContext().getResourceAsStream(relativeWebPath);
-     InputStream inputStream = null;
-     try {
-     inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
-     } catch (NullPointerException npe) {
-     log.info(npe.toString());
-     }
-     OutputStream outputStream = response.getOutputStream();
-     byte[] bytes = new byte[1024 * 2];
-     int bytesRead = -1;
-     try {
-     while ((bytesRead = inputStream.read(bytes)) != -1) {
-     outputStream.write(bytes, 0, bytesRead);
-     }
-     } catch (NullPointerException npe) {
-     }
-     outputStream.flush();
-     }
-     */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
     }
