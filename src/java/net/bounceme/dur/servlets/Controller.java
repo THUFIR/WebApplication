@@ -16,22 +16,19 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
-        String name = (String) request.getAttribute("name");
-      //  String name = request.getParameter("name");
-      //  request.setAttribute("name", name);
-      //  String myName = (String) request.getAttribute("myName");
-      //  String myId = (String) request.getAttribute("myId");
-      //  boolean authenticated = (Boolean) request.getAttribute("authenticated");
-      //  String duke = (String) request.getAttribute("duke");
-      //  String greeting = (String) request.getAttribute("greeting");
+//        String name = (String) request.getAttribute("name");
+        String name = request.getParameter("name");
+        log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
         myToken = (MyToken) request.getAttribute("myToken");
         try {
-            myToken.setName(name);
+            myToken.setName("fred");
         } catch (NullPointerException npe) {
-            log.info("null name in controller");
+            myToken = new MyToken();
+            myToken.setName("joe");
+            log.info("null name in controller...but...\n" + npe.getMessage());
         }
         request.setAttribute("myToken", myToken);
-        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request,Controller.class.getName());
+        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 

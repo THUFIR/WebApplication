@@ -1,7 +1,10 @@
 package net.bounceme.dur.servlets;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -22,6 +25,13 @@ public class MyToken {
 
     public MyToken() {
         log.severe("new token, default");
+        //Enumeration<String>  foo;
+        //   foo = new Enumeration<String>();
+        List<String> bar = new ArrayList<>();
+        bar.add("marge");
+        bar.add("lisa");
+        Enumeration<String> mockUsers = Collections.enumeration(bar);
+        populateUsers(mockUsers);
     }
 
     public MyToken(Enumeration<String> users) {
@@ -39,6 +49,7 @@ public class MyToken {
     }
 
     public void setMyName(String myName) {
+        log.info(MyToken.class.getName() + "\t trying to set name \t\t" + name);
         this.myName = myName;
     }
 

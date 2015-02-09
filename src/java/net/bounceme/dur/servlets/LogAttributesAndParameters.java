@@ -19,7 +19,7 @@ public class LogAttributesAndParameters {
         try {
             log.info(t.toString());
         } catch (NullPointerException npe) {
-            log.info("null token");
+            log.info("null token in " + LogAttributesAndParameters.class.getName());
         }
     }
 

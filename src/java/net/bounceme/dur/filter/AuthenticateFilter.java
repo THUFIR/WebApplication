@@ -41,20 +41,22 @@ public class AuthenticateFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.fine("do filter");
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        // myToken = new MyToken(users);
-        myToken = (MyToken) req.getAttribute("myToken");
-        String duke = null;
-        try {
-            duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
-            myToken.setDuke(duke);
-        } catch (NullPointerException npe) {
-            log.info("null token");
-        }
-        req.setAttribute("myToken", myToken);
-        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(req, AuthenticateFilter.class.getName());
-        chain.doFilter(req, resp);
+        /*
+         HttpServletRequest req = (HttpServletRequest) request;
+         HttpServletResponse resp = (HttpServletResponse) response;
+         // myToken = new MyToken(users);
+         myToken = (MyToken) req.getAttribute("myToken");
+         String duke = null;
+         try {
+         duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
+         myToken.setDuke(duke);
+         } catch (NullPointerException npe) {
+         log.info("null token in doFilter");
+         }
+         req.setAttribute("myToken", myToken);
+         */
+        LogAttributesAndParameters logRequest = new LogAttributesAndParameters((HttpServletRequest) request, AuthenticateFilter.class.getName());
+        chain.doFilter(request, response);
     }
 
     public FilterConfig getFilterConfig() {
