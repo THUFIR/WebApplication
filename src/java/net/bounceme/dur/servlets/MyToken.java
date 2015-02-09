@@ -23,7 +23,7 @@ public class MyToken {
     private Map<String, MyRoles> mapOfUsers;  //needs its own wrapper, really...or something
     private String duke;
 
-    public MyToken() {
+    public MyToken() {  //would like to make private
         log.severe("new token, default");
         List<String> bar = new ArrayList<>();
         bar.add("marge");
@@ -32,8 +32,8 @@ public class MyToken {
         populateUsers(mockUsers);
     }
 
-    private MyToken(Enumeration<String> users) {
-        log.severe("new token with users");
+    private MyToken(Enumeration<String> users) {// preferably, the only public constructor
+        log.severe("new token with users...");
         populateUsers(users);
     }
 
@@ -113,15 +113,23 @@ public class MyToken {
         return greeting;
     }
 
-    private void configGreeting() {
-        greeting = "";
+    private void signIn() {
         if (mapOfUsers.containsValue(name)) {
             authenticated = true;
+        } else {
+            authenticated = false;
+        }
+    }
+
+    private void configGreeting() {
+        signIn();
+        greeting = "";
+        if (authenticated) {
             greeting = "welcome " + name + "you're authenticated";
         } else {
             greeting = "welcome " + name;
         }
-        greeting = (name == null) ? "" : greeting;
+        greeting = ((name == "") || (name == null) || (name.isEmpty())) ? "" : greeting;
     }
 
     public String getDuke() {
