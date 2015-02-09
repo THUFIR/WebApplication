@@ -19,12 +19,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.bounceme.dur.servlets.LogAttributesAndParameters;
+import net.bounceme.dur.servlets.MyToken;
 
 public class AuthenticateFilter implements Filter {
 
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
+    private MyToken mytoken = null;
+    private Enumeration<String> users = null;
 
     public AuthenticateFilter() {
     }
@@ -37,47 +40,17 @@ public class AuthenticateFilter implements Filter {
         log.fine("do after processing");  //add image here?
     }
 
-    private void makeMap() {
-        Enumeration<String> parmNamesEnum = filterConfig.getInitParameterNames();
-        List<String> keys = Collections.list(parmNamesEnum);
-        for (String s : keys) {
-            mapOfUsers.put(s.toLowerCase(), filterConfig.getInitParameter(s));
-        }
-        log.fine(mapOfUsers.toString());
-    }
-
-    private void foo() {
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String name = (String) request.getAttribute("name");
-        try {
-            name = name.toLowerCase();
-        } catch (NullPointerException npe) {
-            log.warning("null name; no worries");
-        }
-        //   String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
-        String myName = request.getServletContext().getInitParameter("me");
-        String myId = request.getServletContext().getInitParameter("id");
-        boolean authenticated = false;
-        String greeting = "";
-        if (mapOfUsers.containsValue(name)) {
-            authenticated = true;
-            greeting = "welcome " + name + "you're authenticated";
-        } else {
-            greeting = "welcome " + name;
-        }
-        greeting = (name == null) ? null : greeting;
-        //   message = authenticated ? "hello " + name : "";
+        mytoken = new MyToken(users);
+        mytoken.setName((String) request.getAttribute("name"));
+        mytoken.setMyName(request.getServletContext().getInitParameter("me"));
+        mytoken.setMyId(request.getServletContext().getInitParameter("id"));
         String duke = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath() + "/duke.gif";
-        request.setAttribute("myName", myName);
-        request.setAttribute("myId", myId);
-        request.setAttribute("authenticated", authenticated);
-        request.setAttribute("greeting", greeting);
+        request.setAttribute("myToken", mytoken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters((HttpServletRequest) request, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }
@@ -104,7 +77,7 @@ public class AuthenticateFilter implements Filter {
         } else {
             log.warning("null filterConfig");
         }
-        makeMap();  //debatable  and maybe should be in init?  only should run once.
+        users = filterConfig.getInitParameterNames();
     }
 
     @Override
