@@ -1,10 +1,8 @@
 package net.bounceme.dur.servlets;
 
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
-import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
 
 public class ControllerToken {
@@ -28,18 +26,28 @@ public class ControllerToken {
 
     public void initRequest(HttpServletRequest req) {
         log.info("initRequest....");
-        Enumeration<String> p = req.getParameterNames();
-        Enumeration<String> a = req.getAttributeNames();
-        String foo = null;
-        while (a.hasMoreElements()) {
-            foo = a.nextElement();
-            log.info(foo);
+        Enumeration<String> attributes = req.getAttributeNames();
+        Enumeration<String> parameters = req.getParameterNames();
+        try {
+            traverse(attributes);
+        } catch (NoSuchElementException nse) {
+            log.info(nse.toString());
         }
-        while (p.hasMoreElements()) {
-            foo = a.nextElement();
-            log.info(foo);
+        try {
+            traverse(parameters);
+        } catch (NoSuchElementException nse) {
+            log.info(nse.toString());
         }
+
         log.info("...initRequest");
+    }
+
+    private void traverse(Enumeration<String> a) throws NoSuchElementException {
+        String string = null;
+        while (a.hasMoreElements()) {
+            string = a.nextElement();
+            log.info(string);
+        }
     }
 
     public String getMyName() {
