@@ -12,11 +12,11 @@
         <filter-name>AuthenticateFilter</filter-name>
         <filter-class>net.bounceme.dur.filter.AuthenticateFilter</filter-class>
         <init-param>
-            <param-name>user1</param-name>
+            <param-name>1</param-name>
             <param-value>bart</param-value>
         </init-param>
         <init-param>
-            <param-name>user2</param-name>
+            <param-name>2</param-name>
             <param-value>homer</param-value>
         </init-param>
     </filter>

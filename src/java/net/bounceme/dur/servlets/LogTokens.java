@@ -1,24 +1,35 @@
 package net.bounceme.dur.servlets;
 
+import net.bounceme.dur.filter.AuthenticationToken;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 //make all static methods?
-public class LogAttributesAndParameters {
+public class LogTokens {
 
-    private static final Logger log = Logger.getLogger(LogAttributesAndParameters.class.getName());
+    private static final Logger log = Logger.getLogger(LogTokens.class.getName());
     private String loggingClass;
 
-    private LogAttributesAndParameters() {
+    private LogTokens() {
     }
 
-    public LogAttributesAndParameters(HttpServletRequest request, String className) {
+    public static void logFilterToken(HttpServletRequest request, String className) {
         log.info(className);
-        MyToken t = (MyToken) request.getAttribute("myToken");
+        AuthenticationToken token = (AuthenticationToken) request.getAttribute("filterToken");
         try {
-            log.info(t.toString());
+            log.info(token.toString());
         } catch (NullPointerException npe) {
-            log.info("null token in " + LogAttributesAndParameters.class.getName());
+            log.info("null token in " + className);
+        }
+    }
+
+    public static void logControllerToken(HttpServletRequest request, String className) {
+        log.info(className);
+        ControllerToken token = (ControllerToken) request.getAttribute("controllerToken");
+        try {
+            log.info(token.toString());
+        } catch (NullPointerException npe) {
+            log.info("null token in " + className);
         }
     }
 

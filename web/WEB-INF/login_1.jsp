@@ -6,17 +6,17 @@
         <title>login</title>
     </head>
     <body>
-        <img src="${requestScope.filterToken.duke}"> 
+        <img src="${requestScope.duke}"> 
         <p>
-            ${requestScope.filterToken.duke}
+            ${requestScope.duke}
         <p>
-            my name is ${requestScope.controllerToken.myName}, ${requestScope.controllerToken.myId}, what's yours?
+            my name is ${requestScope.myName}, ${requestScope.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             name <input type="text" name="name" value="" size='20' />
             <p>
                 <input type="submit">
             </p>
         </form>
-      
+        ${requestScope.myToken.greeting}
     </body>
 </html>

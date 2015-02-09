@@ -1,14 +1,16 @@
-package net.bounceme.dur.servlets;
+package net.bounceme.dur.filter;
 
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
+import net.bounceme.dur.servlets.MyRoles;
 
-public class MyToken {
+public class GenericToken {
 
-    private static Logger log = Logger.getLogger(MyToken.class.getName());
+    private static Logger log = Logger.getLogger(GenericToken.class.getName());
 
     private String myName = "someone";
     private String myId = "5232435";
@@ -21,25 +23,36 @@ public class MyToken {
     private Map<String, MyRoles> mapOfUsers;  //needs its own wrapper, really...or something
     private String duke;
 
-    public MyToken() {  //would like to make private
+    public GenericToken() {  //would like to make private
         log.severe("new token, default");
     }
 
-    public void init(HttpServletRequest req) {
+    public void initFilterConfig(FilterConfig filterConfig) {
+        mapOfUsers = new HashMap<>();
+        Enumeration<String> initParams = filterConfig.getInitParameterNames();
+        String paramName = null;
+        String paramValue = null;
+        while (initParams.hasMoreElements()) {
+            paramName = initParams.nextElement();
+            paramValue = filterConfig.getInitParameter(paramName);
+            mapOfUsers.put(paramValue, MyRoles.USER);
+        }
+    }
+
+    public void initRequest(HttpServletRequest req) {
+        log.info("initRequest....");
         Enumeration<String> p = req.getParameterNames();
         Enumeration<String> a = req.getAttributeNames();
         String foo = null;
-        log.info("**********************************attributes");
         while (a.hasMoreElements()) {
             foo = a.nextElement();
             log.info(foo);
         }
-        log.info("**********************************parameters");
         while (p.hasMoreElements()) {
             foo = a.nextElement();
             log.info(foo);
         }
-        log.info("**********************************done");
+        log.info("...initRequest");
     }
 
     @Override
@@ -53,7 +66,7 @@ public class MyToken {
     }
 
     public void setMyName(String myName) {
-        log.info(MyToken.class.getName() + "\t trying to set name \t\t" + name);
+        log.info(GenericToken.class.getName() + "\t trying to set name \t\t" + name);
         this.myName = myName;
     }
 

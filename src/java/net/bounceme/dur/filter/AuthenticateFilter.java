@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -16,16 +15,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.bounceme.dur.servlets.LogAttributesAndParameters;
-import net.bounceme.dur.servlets.MyToken;
+import net.bounceme.dur.servlets.ControllerToken;
+import net.bounceme.dur.servlets.LogTokens;
 
 public class AuthenticateFilter implements Filter {
 
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
-    private MyToken myToken;// = new MyToken();
-    private Enumeration<String> users = null;
+    private AuthenticationToken token;// = new MyToken();
+    // private Enumeration<String> users = null;
 
     public AuthenticateFilter() {
     }
@@ -43,16 +42,17 @@ public class AuthenticateFilter implements Filter {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        myToken = (MyToken) req.getAttribute("myToken");
-        String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
-        if (myToken == null) {
-            myToken = new MyToken();
-            myToken.init(req);
+        AuthenticationToken tempToken = (AuthenticationToken) req.getAttribute("filterToken");
+        if (tempToken == null) {
+            token = new AuthenticationToken();
+            token.initFilterConfig(filterConfig);
+        } else {
+            token = tempToken;
         }
-        myToken.populateUsers(users);
-        myToken.setDuke(duke);
-        req.setAttribute("myToken", myToken);
-        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(req, AuthenticateFilter.class.getName());
+        String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
+      //  token.setDuke(duke);
+        req.setAttribute("filterToken", token);
+        LogTokens.logFilterToken(req, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }
 
@@ -70,21 +70,15 @@ public class AuthenticateFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.fine("init");
-
+        log.info("init filter");
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             log.fine("SessionCheckFilter:Initializing filter");
         } else {
             log.warning("null filterConfig");
         }
-        users = filterConfig.getInitParameterNames();
-        //  myToken = new MyToken(users);
-        //   String m = filterConfig.getInitParameter("me");
-        //   String id = filterConfig.getInitParameter("id");
-        //  myToken.setMyName(m);
-        //  myToken.setMyId(id);
-        //  myToken = new MyToken();
+        token = new AuthenticationToken();
+        token.initFilterConfig(getFilterConfig());
     }
 
     @Override

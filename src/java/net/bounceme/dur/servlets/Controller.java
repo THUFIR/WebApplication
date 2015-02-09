@@ -1,5 +1,6 @@
 package net.bounceme.dur.servlets;
 
+import net.bounceme.dur.filter.AuthenticationToken;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -12,20 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     private static final Logger log = Logger.getLogger(Controller.class.getName());
-    private MyToken myToken;// = new MyToken();
+    private ControllerToken token;// = new MyToken();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
         String name = request.getParameter("name");
         log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
-        myToken = (MyToken) request.getAttribute("myToken");
-        if (myToken == null) {
-            myToken = new MyToken();
-            myToken.init(request);
+        ControllerToken tempToken = (ControllerToken) request.getAttribute("controllerToken");
+        if (tempToken == null) {
+            token = new ControllerToken();
+            token.initRequest(request);
+        } else {
+            token = tempToken;
         }
-        myToken.setName(name);
-        request.setAttribute("myToken", myToken);
-        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request, Controller.class.getName());
+        token.initRequest(request);
+       // token.setName(name);
+        request.setAttribute("myToken", token);
+        LogTokens.logControllerToken(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 
