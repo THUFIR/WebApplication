@@ -10,13 +10,13 @@
         <p>
             ${requestScope.duke}
         <p>
-            ${requestScope.me}, what's yours?
+            my name is ${requestScope.myName}, ${requestScope.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             name <input type="text" name="name" value="skinner" size='20' />
             <p>
                 <input type="submit">
             </p>
         </form>
-        ${requestScope.message}
+        ${requestScope.name}
     </body>
 </html>

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
@@ -40,9 +41,12 @@ public class AuthenticateFilter implements Filter {
         Enumeration<String> parmNamesEnum = filterConfig.getInitParameterNames();
         List<String> keys = Collections.list(parmNamesEnum);
         for (String s : keys) {
-            mapOfUsers.put(s, filterConfig.getInitParameter(s));
+            mapOfUsers.put(s.toLowerCase(), filterConfig.getInitParameter(s));
         }
         log.fine(mapOfUsers.toString());
+    }
+
+    private void foo() {
     }
 
     @Override
@@ -52,25 +56,24 @@ public class AuthenticateFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
         log.fine("Requested Resource::" + uri);
-        makeMap();  //debatable  and maybe should be in init?  only should run once.
         String name = (String) request.getAttribute("name");
-        String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
+        try {
+            name = name.toLowerCase();
+        } catch (NullPointerException npe) {
+            log.info("null name");
+        }
+     //   String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
         String myName = request.getServletContext().getInitParameter("me");
         String myId = request.getServletContext().getInitParameter("id");
-        String me = "my name is " + myName + " " + myId;
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
-        message = authenticated ? "hello " + name : "";
-        String server = request.getServerName();
-        int port = request.getServerPort();
-        String protocol = "http://";
-        String duke = protocol + server + ":" + port + request.getServletContext().getContextPath() + "/duke.gif";
-        log.info("filter user is\t\t\t" + message);
+     //   message = authenticated ? "hello " + name : "";
+        String duke = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath() + "/duke.gif";
+        log.info("filter name is\t\t\t" + name);
         log.info("filter authenticated is\t\t" + authenticated);
-        log.info("filter message is\t\t" + message);
         log.info("filter duke is\t\t\t" + duke);
-        request.setAttribute("me", me);
+        request.setAttribute("myName", myName);
+        request.setAttribute("myId", myId);
         request.setAttribute("authenticated", authenticated);
-        request.setAttribute("message", message);
         request.setAttribute("duke", duke);
         chain.doFilter(request, response);
     }
@@ -97,6 +100,7 @@ public class AuthenticateFilter implements Filter {
         } else {
             log.warning("null filterConfig");
         }
+        makeMap();  //debatable  and maybe should be in init?  only should run once.
     }
 
     @Override

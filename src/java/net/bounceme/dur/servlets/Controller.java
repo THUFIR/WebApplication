@@ -15,19 +15,15 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
-        String name = request.getParameter("name");
-        log.info("controller name is\t\t" + name);
-      //  String user = (String) request.getAttribute("user");
-      //  user = name; //?? bad idea
-        request.setAttribute("name", name); //even worse
-        boolean authenticated = (boolean) request.getAttribute("authenticated");
-        String message = (String) request.getAttribute("message");
-        String me = (String) request.getAttribute("me");
-        log.info("controller user is\t\t" + message);
-        log.info("controller authenticated is\t" + authenticated);
-        log.info("controller message is\t\t" + message);
-        log.info("controller me is\t\t" + me);
+        String name = (String) request.getAttribute("name");
+        String myName = (String) request.getAttribute("myName");
+        String myId = (String) request.getAttribute("myId");
+        boolean authenticated = (Boolean) request.getAttribute("authenticated");
         String duke = (String) request.getAttribute("duke");
+        log.info("controller name is\t\t" + name);
+        log.info("controller myName is\t\t" + myName);
+        log.info("controller id is\t\t" + myId);
+        log.info("controller authenticated is\t" + authenticated);
         log.info("controller duke is\t\t" + duke);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
