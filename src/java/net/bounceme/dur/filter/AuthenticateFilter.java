@@ -43,7 +43,6 @@ public class AuthenticateFilter implements Filter {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        // myToken = new MyToken(users);
         myToken = (MyToken) req.getAttribute("myToken");
         if (myToken == null) {
             myToken = new MyToken();

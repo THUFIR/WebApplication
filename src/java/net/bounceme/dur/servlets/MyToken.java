@@ -41,7 +41,8 @@ public class MyToken {
 
     @Override
     public String toString() {
-        return getName() + isAuthenticated() + isAttemptedLogin();
+        setGreeting();
+        return getName() + isAuthenticated() + isAttemptedLogin()+ getGreeting();
     }
 
     public String getMyName() {
