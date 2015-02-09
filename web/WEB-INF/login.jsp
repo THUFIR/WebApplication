@@ -12,7 +12,7 @@
         <p>
             my name is ${requestScope.myName}, ${requestScope.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
-            name <input type="text" name="name" value="skinner" size='20' />
+            name <input type="text" name="name" value="" size='20' />
             <p>
                 <input type="submit">
             </p>
