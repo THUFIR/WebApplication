@@ -1,4 +1,4 @@
-package net.bounceme.dur.filter;
+package net.bounceme.dur.webapp.filter;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -15,8 +15,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.bounceme.dur.servlets.ControllerToken;
-import net.bounceme.dur.servlets.LogTokens;
+import net.bounceme.dur.webapp.servlets.ControllerToken;
+import net.bounceme.dur.webapp.servlets.LogTokens;
 
 public class AuthenticateFilter implements Filter {
 
@@ -50,6 +50,9 @@ public class AuthenticateFilter implements Filter {
             token = tempToken;
         }
         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
+        token.initRequest(req);
+        token.setDuke(duke);
+        //token.authenticate();
       //  token.setDuke(duke);
         req.setAttribute("filterToken", token);
         LogTokens.logFilterToken(req, AuthenticateFilter.class.getName());

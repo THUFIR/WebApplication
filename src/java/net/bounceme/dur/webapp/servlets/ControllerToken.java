@@ -1,11 +1,12 @@
-package net.bounceme.dur.servlets;
+package net.bounceme.dur.webapp.servlets;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import net.bounceme.dur.webapp.MyToken;
 
-public class ControllerToken {
+public class ControllerToken implements MyToken{
 
     private static Logger log = Logger.getLogger(ControllerToken.class.getName());
 
@@ -44,7 +45,6 @@ public class ControllerToken {
             log.info(string);
         }
         log.info(ControllerToken.class.getName() + "\t..traverse");
-
     }
 
     public String getMyName() {
@@ -52,7 +52,7 @@ public class ControllerToken {
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.login = login.toLowerCase();
     }
 
     public String getLogin() {

@@ -10,7 +10,7 @@
     </context-param>
     <filter>
         <filter-name>AuthenticateFilter</filter-name>
-        <filter-class>net.bounceme.dur.filter.AuthenticateFilter</filter-class>
+        <filter-class>net.bounceme.dur.webapp.filter.AuthenticateFilter</filter-class>
         <init-param>
             <param-name>1</param-name>
             <param-value>bart</param-value>

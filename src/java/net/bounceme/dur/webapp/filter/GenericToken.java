@@ -1,4 +1,4 @@
-package net.bounceme.dur.filter;
+package net.bounceme.dur.webapp.filter;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
-import net.bounceme.dur.servlets.MyRoles;
+import net.bounceme.dur.webapp.servlets.MyRoles;
 
 public class GenericToken {
 

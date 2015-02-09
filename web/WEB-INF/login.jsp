@@ -7,16 +7,14 @@
     </head>
     <body>
         <img src="${requestScope.filterToken.duke}"> 
-        <p>
-            ${requestScope.filterToken.duke}
-        <p>
-            my name is ${requestScope.controllerToken.myName}, ${requestScope.controllerToken.myId}, what's yours?
+
+        my name is ${requestScope.controllerToken.myName}, ${requestScope.controllerToken.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
-            name <input type="text" name="login" value="" size='20' />
+            login: <input type="text" name="login" value="" size='20' />
             <p>
                 <input type="submit">
             </p>
         </form>
-      ${requestScope.controllerToken.login}
+        ${requestScope.authenticationToken.greeting}
     </body>
 </html>
