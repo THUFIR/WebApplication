@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.FilterConfig;
-import net.bounceme.dur.servlets.ControllerToken;
 import net.bounceme.dur.servlets.MyRoles;
 
 public class AuthenticationToken {
@@ -32,6 +31,10 @@ public class AuthenticationToken {
 
     public String getDuke() {
         return duke;
+    }
+
+    public String toString() {
+        return AuthenticationToken.class.getName() + "\t" + duke;
     }
 
 }

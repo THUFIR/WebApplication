@@ -24,22 +24,27 @@ public class ControllerToken {
         try {
             traverse(attributes);
         } catch (NoSuchElementException nse) {
-            log.info(nse.toString());
+            log.warning(nse.toString());
         }
         try {
             traverse(parameters);
         } catch (NoSuchElementException nse) {
-            log.info(nse.toString());
+            log.warning(nse.toString());
         }
+        login = req.getParameter("login");
         log.info(ControllerToken.class.getName() + "\t..initRequest");
     }
 
     private void traverse(Enumeration<String> a) throws NoSuchElementException {
+        log.info(ControllerToken.class.getName() + "\ttraverse..");
+
         String string = null;
         while (a.hasMoreElements()) {
             string = a.nextElement();
             log.info(string);
         }
+        log.info(ControllerToken.class.getName() + "\t..traverse");
+
     }
 
     public String getMyName() {

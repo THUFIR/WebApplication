@@ -27,8 +27,8 @@ public class Controller extends HttpServlet {
         }
         token.initRequest(request);
        // token.setName(name);
-        token.setLogin(login);
-        request.setAttribute("myToken", token);
+//        token.setLogin(login);
+        request.setAttribute("controllerToken", token);
         LogTokens.logControllerToken(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }

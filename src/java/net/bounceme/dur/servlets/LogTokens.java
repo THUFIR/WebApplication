@@ -12,7 +12,7 @@ public class LogTokens {
     }
 
     public static void logFilterToken(HttpServletRequest request, String className) {
-        log.info("logFiltertoken..");
+        log.info(LogTokens.class.getName() + "\tlogFilterToken..");
         log.info(className);
         AuthenticationToken token = (AuthenticationToken) request.getAttribute("filterToken");
         try {
@@ -20,11 +20,11 @@ public class LogTokens {
         } catch (NullPointerException npe) {
             log.info("null token in " + className);
         }
-        log.info("..logFilterToken");
+        log.info(LogTokens.class.getName() + "\t..logFilterToken");
     }
 
     public static void logControllerToken(HttpServletRequest request, String className) {
-        log.info("logControllerToken..");
+        log.info(LogTokens.class.getName() + "\tlogControllerToken..");
         log.info(className);
         ControllerToken token = (ControllerToken) request.getAttribute("controllerToken");
         try {
@@ -32,6 +32,6 @@ public class LogTokens {
         } catch (NullPointerException npe) {
             log.info("null token in " + className);
         }
-        log.info("..logControllerToken");
+        log.info(LogTokens.class.getName() + "\t..logControllerToken");
     }
 }
