@@ -1,12 +1,6 @@
 package net.bounceme.dur.filter;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -66,10 +60,9 @@ public class AuthenticateFilter implements Filter {
         String me = "my name is " + myName + " " + myId;
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
         message = authenticated ? "hello " + name : "";
-        //   String duke = request.getServletContext().getRealPath("//duke.gif");
-        String duke = request.getServletContext().getRealPath("") + "\\" + "duke.gif";
-        duke = "WEB-INF/IMAGES/duke.gif";
-        duke = request.getServletContext().getResourcePaths("/") + "duke.gif";
+        String hp = request.getServerName();
+        int p = request.getServerPort();
+        String duke = "http://" + hp + ":" + p + request.getServletContext().getContextPath() + "/duke.gif";
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);

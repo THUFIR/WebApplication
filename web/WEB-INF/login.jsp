@@ -15,10 +15,5 @@
             </p>
         </form>
         ${requestScope.message}
-        <img src="${pageContext.request.contextPath}/WEB-INF/IMAGES/duke.gif" />
-        <img src="/WEB-INF/IMAGES/duke.gif" />
-        <img src="http://localhost:8080/WebApplication/WEB-INF/IMAGES/duke.gif" />
-        <img src="http://localhost:8080/WebApplication/duke.gif" />
-        <img src="${requestScope}"/IMAGES/duke.gif>
     </body>
 </html>
