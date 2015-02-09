@@ -1,12 +1,10 @@
 package net.bounceme.dur.servlets;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 
 public class MyToken {
 
@@ -25,16 +23,23 @@ public class MyToken {
 
     public MyToken() {  //would like to make private
         log.severe("new token, default");
-        List<String> bar = new ArrayList<>();
-        bar.add("marge");
-        bar.add("lisa");
-        Enumeration<String> mockUsers = Collections.enumeration(bar);
-        populateUsers(mockUsers);
     }
 
-    private MyToken(Enumeration<String> users) {// preferably, the only public constructor
-        log.severe("new token with users...");
-        populateUsers(users);
+    public void init(HttpServletRequest req) {
+        Enumeration<String> p = req.getParameterNames();
+        Enumeration<String> a = req.getAttributeNames();
+        String foo = null;
+        log.info("**********************************attributes");
+        while (a.hasMoreElements()) {
+            foo = a.nextElement();
+            log.info(foo);
+        }
+        log.info("**********************************parameters");
+        while (p.hasMoreElements()) {
+            foo = a.nextElement();
+            log.info(foo);
+        }
+        log.info("**********************************done");
     }
 
     @Override
@@ -138,6 +143,10 @@ public class MyToken {
 
     public void setDuke(String duke) {
         this.duke = duke;
+    }
+
+    private void populateMe() {
+
     }
 
 }

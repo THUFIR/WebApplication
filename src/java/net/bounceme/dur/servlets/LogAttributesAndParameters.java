@@ -1,6 +1,5 @@
 package net.bounceme.dur.servlets;
 
-import java.util.Enumeration;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 

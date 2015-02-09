@@ -24,7 +24,7 @@ public class AuthenticateFilter implements Filter {
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
-    private MyToken myToken = new MyToken();
+    private MyToken myToken;// = new MyToken();
     private Enumeration<String> users = null;
 
     public AuthenticateFilter() {
@@ -47,6 +47,7 @@ public class AuthenticateFilter implements Filter {
         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
         if (myToken == null) {
             myToken = new MyToken();
+            myToken.init(req);
         }
         myToken.populateUsers(users);
         myToken.setDuke(duke);

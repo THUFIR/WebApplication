@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     private static final Logger log = Logger.getLogger(Controller.class.getName());
-    private MyToken myToken = new MyToken();
+    private MyToken myToken;// = new MyToken();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
@@ -21,6 +21,7 @@ public class Controller extends HttpServlet {
         myToken = (MyToken) request.getAttribute("myToken");
         if (myToken == null) {
             myToken = new MyToken();
+            myToken.init(request);
         }
         myToken.setName(name);
         request.setAttribute("myToken", myToken);
