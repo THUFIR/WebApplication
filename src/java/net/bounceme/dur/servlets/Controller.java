@@ -16,17 +16,15 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
-//        String name = (String) request.getAttribute("name");
         String name = request.getParameter("name");
         log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
         myToken = (MyToken) request.getAttribute("myToken");
-        try {
-            myToken.setName("fred");
-        } catch (NullPointerException npe) {
+        if (myToken == null) {
             myToken = new MyToken();
-            myToken.setName("joe");
-            log.info("null name in controller...but...\n" + npe.getMessage());
+        } else {
+            log.info("processRequest:   new token");
         }
+        myToken.setName(name);
         request.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
