@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     private static final Logger log = Logger.getLogger(Controller.class.getName());
-    private MyToken myToken = null;
+    private MyToken myToken = new MyToken();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
@@ -20,11 +20,10 @@ public class Controller extends HttpServlet {
         log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
         myToken = (MyToken) request.getAttribute("myToken");
         if (myToken == null) {
-            //    myToken = new MyToken();
-        } else {
-            myToken.setName(name);
-            request.setAttribute("myToken", myToken);
+            myToken = new MyToken();
         }
+        myToken.setName(name);
+        request.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }

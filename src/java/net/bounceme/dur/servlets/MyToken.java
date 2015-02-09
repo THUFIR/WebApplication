@@ -32,14 +32,14 @@ public class MyToken {
         populateUsers(mockUsers);
     }
 
-    public MyToken(Enumeration<String> users) {
+    private MyToken(Enumeration<String> users) {
         log.severe("new token with users");
         populateUsers(users);
     }
 
     @Override
     public String toString() {
-        setGreeting();
+        configGreeting();
         return getName() + isAuthenticated() + isAttemptedLogin() + getGreeting() + mapOfUsers.toString();
     }
 
@@ -66,7 +66,7 @@ public class MyToken {
 
     public void setName(String name) {
         this.name = name;
-        setGreeting();
+        configGreeting();
     }
 
     public MyRoles getRole() {
@@ -101,19 +101,19 @@ public class MyToken {
         this.attemptedLogin = attemptedLogin;
     }
 
-    private void populateUsers(Enumeration<String> users) {
+    public void populateUsers(Enumeration<String> users) {
         mapOfUsers = new HashMap<>();
         while (users.hasMoreElements()) {
             mapOfUsers.put(users.nextElement().toLowerCase(), MyRoles.USER);  //everyone is a user..?
         }
-
+        configGreeting();
     }
 
     public String getGreeting() {
         return greeting;
     }
 
-    private void setGreeting() {
+    private void configGreeting() {
         greeting = "";
         if (mapOfUsers.containsValue(name)) {
             authenticated = true;

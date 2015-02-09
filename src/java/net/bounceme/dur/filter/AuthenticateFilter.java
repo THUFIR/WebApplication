@@ -24,7 +24,7 @@ public class AuthenticateFilter implements Filter {
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
-    private MyToken myToken = null;
+    private MyToken myToken = new MyToken();
     private Enumeration<String> users = null;
 
     public AuthenticateFilter() {
@@ -46,11 +46,11 @@ public class AuthenticateFilter implements Filter {
         myToken = (MyToken) req.getAttribute("myToken");
         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
         if (myToken == null) {
-            //  myToken = new MyToken();
-        } else {
-            myToken.setDuke(duke);
-            req.setAttribute("myToken", myToken);
+            myToken = new MyToken();
         }
+        myToken.populateUsers(users);
+        myToken.setDuke(duke);
+        req.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(req, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }
@@ -78,11 +78,12 @@ public class AuthenticateFilter implements Filter {
             log.warning("null filterConfig");
         }
         users = filterConfig.getInitParameterNames();
-        myToken = new MyToken(users);
-        String m = filterConfig.getInitParameter("me");
-        String id = filterConfig.getInitParameter("id");
-        myToken.setMyName(m);
-        myToken.setMyId(id);
+        //  myToken = new MyToken(users);
+        //   String m = filterConfig.getInitParameter("me");
+        //   String id = filterConfig.getInitParameter("id");
+        //  myToken.setMyName(m);
+        //  myToken.setMyId(id);
+        //  myToken = new MyToken();
     }
 
     @Override
