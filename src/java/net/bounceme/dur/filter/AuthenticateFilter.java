@@ -60,9 +60,10 @@ public class AuthenticateFilter implements Filter {
         String me = "my name is " + myName + " " + myId;
         boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
         message = authenticated ? "hello " + name : "";
-        String hp = request.getServerName();
-        int p = request.getServerPort();
-        String duke = "http://" + hp + ":" + p + request.getServletContext().getContextPath() + "/duke.gif";
+        String server = request.getServerName();
+        int port = request.getServerPort();
+        String protocol = "http://";
+        String duke = protocol + server + ":" + port + request.getServletContext().getContextPath() + "/duke.gif";
         log.info("filter user is\t\t\t" + message);
         log.info("filter authenticated is\t\t" + authenticated);
         log.info("filter message is\t\t" + message);
