@@ -60,21 +60,31 @@ public class AuthenticateFilter implements Filter {
         try {
             name = name.toLowerCase();
         } catch (NullPointerException npe) {
-            log.info("null name");
+            log.warning("null name; no worries");
         }
-     //   String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
+        //   String message = mapOfUsers.containsValue(name) ? "hello " + name : "no " + name;
         String myName = request.getServletContext().getInitParameter("me");
         String myId = request.getServletContext().getInitParameter("id");
-        boolean authenticated = mapOfUsers.containsValue(name) ? true : false;
-     //   message = authenticated ? "hello " + name : "";
+        boolean authenticated = false;
+        String greeting = "";
+        if (mapOfUsers.containsValue(name)) {
+            authenticated = true;
+            greeting = "welcome " + name + "you're authenticated";
+        } else {
+            greeting = "welcome " + name;
+        }
+        greeting = (name == null) ? null : greeting;
+        //   message = authenticated ? "hello " + name : "";
         String duke = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath() + "/duke.gif";
-        log.info("filter name is\t\t\t" + name);
-        log.info("filter authenticated is\t\t" + authenticated);
-        log.info("filter duke is\t\t\t" + duke);
         request.setAttribute("myName", myName);
         request.setAttribute("myId", myId);
         request.setAttribute("authenticated", authenticated);
-        request.setAttribute("duke", duke);
+        request.setAttribute("greeting", greeting);
+        log.info("filter myName is\t\t\t" + myName);
+        log.info("filter id is\t\t\t" + myId);
+        log.info("filter name is\t\t\t" + name);
+        log.info("filter authenticated is\t\t" + authenticated);
+        log.info("filter greeting is\t\t\t" + greeting);
         chain.doFilter(request, response);
     }
 

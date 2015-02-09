@@ -17,6 +17,6 @@
                 <input type="submit">
             </p>
         </form>
-        ${requestScope.name}
+        ${requestScope.greeting}
     </body>
 </html>
