@@ -42,16 +42,19 @@ public class AuthenticateFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        myToken = new MyToken(users);
-        myToken.setName((String) request.getAttribute("name"));
-        myToken.setMyName(request.getServletContext().getInitParameter("me"));
-        myToken.setMyId(request.getServletContext().getInitParameter("id"));
-        String duke = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath() + "/duke.gif";
-        myToken.setDuke(duke);
-        request.setAttribute("myToken", myToken);
-        LogAttributesAndParameters logRequest = new LogAttributesAndParameters((HttpServletRequest) request, AuthenticateFilter.class.getName());
-        chain.doFilter(request, response);
+        HttpServletResponse resp = (HttpServletResponse) response;
+        // myToken = new MyToken(users);
+        myToken = (MyToken) req.getAttribute("myToken");
+        String duke = null;
+        try {
+            duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
+            myToken.setDuke(duke);
+        } catch (NullPointerException npe) {
+            log.info("null token");
+        }
+        req.setAttribute("myToken", myToken);
+        LogAttributesAndParameters logRequest = new LogAttributesAndParameters(req, AuthenticateFilter.class.getName());
+        chain.doFilter(req, resp);
     }
 
     public FilterConfig getFilterConfig() {
@@ -77,6 +80,11 @@ public class AuthenticateFilter implements Filter {
             log.warning("null filterConfig");
         }
         users = filterConfig.getInitParameterNames();
+        myToken = new MyToken(users);
+        String m = filterConfig.getInitParameter("me");
+        String id = filterConfig.getInitParameter("id");
+        myToken.setMyName(m);
+        myToken.setMyId(id);
     }
 
     @Override

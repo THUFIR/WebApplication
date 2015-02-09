@@ -16,7 +16,7 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
-        //String name = (String) request.getAttribute("name");
+        String name = (String) request.getAttribute("name");
       //  String name = request.getParameter("name");
       //  request.setAttribute("name", name);
       //  String myName = (String) request.getAttribute("myName");
@@ -25,6 +25,12 @@ public class Controller extends HttpServlet {
       //  String duke = (String) request.getAttribute("duke");
       //  String greeting = (String) request.getAttribute("greeting");
         myToken = (MyToken) request.getAttribute("myToken");
+        try {
+            myToken.setName(name);
+        } catch (NullPointerException npe) {
+            log.info("null name in controller");
+        }
+        request.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request,Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }

@@ -21,9 +21,11 @@ public class MyToken {
     private String duke;
 
     public MyToken() {
+        log.severe("new token, default");
     }
 
     public MyToken(Enumeration<String> users) {
+        log.severe("new token with users");
         populateUsers(users);
     }
 
