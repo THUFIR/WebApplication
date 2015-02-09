@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
@@ -26,7 +24,7 @@ public class AuthenticateFilter implements Filter {
     private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
-    private MyToken mytoken = null;
+    private MyToken myToken = null;
     private Enumeration<String> users = null;
 
     public AuthenticateFilter() {
@@ -45,12 +43,13 @@ public class AuthenticateFilter implements Filter {
         log.fine("do filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        mytoken = new MyToken(users);
-        mytoken.setName((String) request.getAttribute("name"));
-        mytoken.setMyName(request.getServletContext().getInitParameter("me"));
-        mytoken.setMyId(request.getServletContext().getInitParameter("id"));
+        myToken = new MyToken(users);
+        myToken.setName((String) request.getAttribute("name"));
+        myToken.setMyName(request.getServletContext().getInitParameter("me"));
+        myToken.setMyId(request.getServletContext().getInitParameter("id"));
         String duke = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getServletContext().getContextPath() + "/duke.gif";
-        request.setAttribute("myToken", mytoken);
+        myToken.setDuke(duke);
+        request.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters((HttpServletRequest) request, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }

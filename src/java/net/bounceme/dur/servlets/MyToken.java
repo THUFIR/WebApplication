@@ -1,12 +1,11 @@
 package net.bounceme.dur.servlets;
 
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class MyToken {//should probably be immutable...
+public class MyToken {
 
     private static Logger log = Logger.getLogger(MyToken.class.getName());
 
@@ -17,10 +16,11 @@ public class MyToken {//should probably be immutable...
     private String password = "abc";
     private boolean authenticated = false;
     private boolean attemptedLogin = false;
-    private String greeting = "hello?";
-    private Map<String, MyRoles> mapOfUsers;
+    private String greeting = "";
+    private Map<String, MyRoles> mapOfUsers;  //needs its own wrapper, really...or something
+    private String duke;
 
-    private MyToken() {
+    public MyToken() {
     }
 
     public MyToken(Enumeration<String> users) {
@@ -90,10 +90,11 @@ public class MyToken {//should probably be immutable...
     }
 
     private void populateUsers(Enumeration<String> users) {
-        List<String> keys = Collections.list(users);
-        for (String s : keys) {
-            mapOfUsers.put(s.toLowerCase(), MyRoles.USER);
+        mapOfUsers = new HashMap<>();
+        while (users.hasMoreElements()) {
+            mapOfUsers.put(users.nextElement().toLowerCase(), MyRoles.USER);  //everyone is a user..?
         }
+
     }
 
     public String getGreeting() {
@@ -108,7 +109,15 @@ public class MyToken {//should probably be immutable...
         } else {
             greeting = "welcome " + name;
         }
-        greeting = (name == null) ? null : greeting;
+        greeting = (name == null) ? "" : greeting;
+    }
+
+    public String getDuke() {
+        return duke;
+    }
+
+    public void setDuke(String duke) {
+        this.duke = duke;
     }
 
 }

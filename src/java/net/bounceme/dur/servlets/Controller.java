@@ -12,18 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     private static final Logger log = Logger.getLogger(Controller.class.getName());
-    private MyToken t = null;
+    private MyToken myToken = null;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
         //String name = (String) request.getAttribute("name");
-        String name = request.getParameter("name");
-        request.setAttribute("name", name);
-        String myName = (String) request.getAttribute("myName");
-        String myId = (String) request.getAttribute("myId");
-        boolean authenticated = (Boolean) request.getAttribute("authenticated");
-        String duke = (String) request.getAttribute("duke");
-        String greeting = (String) request.getAttribute("greeting");
+      //  String name = request.getParameter("name");
+      //  request.setAttribute("name", name);
+      //  String myName = (String) request.getAttribute("myName");
+      //  String myId = (String) request.getAttribute("myId");
+      //  boolean authenticated = (Boolean) request.getAttribute("authenticated");
+      //  String duke = (String) request.getAttribute("duke");
+      //  String greeting = (String) request.getAttribute("greeting");
+        myToken = (MyToken) request.getAttribute("myToken");
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request,Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }

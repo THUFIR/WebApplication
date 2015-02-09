@@ -15,6 +15,10 @@ public class LogAttributesAndParameters {
     }
 
     public LogAttributesAndParameters(HttpServletRequest request, String className) {
+        log.info("\n************************");
+        log.info("\n************************");
+        log.info("\n************************");
+        log.info("\n************************");
         log.info("logging for " + className);
         Enumeration<String> a = request.getAttributeNames();
         Enumeration<String> p = request.getParameterNames();
