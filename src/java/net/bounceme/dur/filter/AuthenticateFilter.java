@@ -44,14 +44,13 @@ public class AuthenticateFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         myToken = (MyToken) req.getAttribute("myToken");
-        if (myToken == null) {
-            myToken = new MyToken();
-        } else {
-            log.info("processRequest:   new token");
-        }
         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
-        myToken.setDuke(duke);
-        req.setAttribute("myToken", myToken);
+        if (myToken == null) {
+            //  myToken = new MyToken();
+        } else {
+            myToken.setDuke(duke);
+            req.setAttribute("myToken", myToken);
+        }
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(req, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }

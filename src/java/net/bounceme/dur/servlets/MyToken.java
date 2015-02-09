@@ -25,8 +25,6 @@ public class MyToken {
 
     public MyToken() {
         log.severe("new token, default");
-        //Enumeration<String>  foo;
-        //   foo = new Enumeration<String>();
         List<String> bar = new ArrayList<>();
         bar.add("marge");
         bar.add("lisa");
@@ -42,7 +40,7 @@ public class MyToken {
     @Override
     public String toString() {
         setGreeting();
-        return getName() + isAuthenticated() + isAttemptedLogin()+ getGreeting();
+        return getName() + isAuthenticated() + isAttemptedLogin() + getGreeting() + mapOfUsers.toString();
     }
 
     public String getMyName() {

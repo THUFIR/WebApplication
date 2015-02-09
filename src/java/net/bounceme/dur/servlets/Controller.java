@@ -20,12 +20,11 @@ public class Controller extends HttpServlet {
         log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
         myToken = (MyToken) request.getAttribute("myToken");
         if (myToken == null) {
-            myToken = new MyToken();
+            //    myToken = new MyToken();
         } else {
-            log.info("processRequest:   new token");
+            myToken.setName(name);
+            request.setAttribute("myToken", myToken);
         }
-        myToken.setName(name);
-        request.setAttribute("myToken", myToken);
         LogAttributesAndParameters logRequest = new LogAttributesAndParameters(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
