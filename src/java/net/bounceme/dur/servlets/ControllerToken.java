@@ -10,22 +10,15 @@ public class ControllerToken {
     private static Logger log = Logger.getLogger(ControllerToken.class.getName());
 
     private String myName = "someone";
+    private String login = "nemo";
     private String myId = "5232435";
 
-    //  private String name = "nemo";
-    //   private MyRoles role = MyRoles.USER;  //only users for now
-    //   private String password = "abc";
-    //   private boolean authenticated = false;
-    //   private boolean attemptedLogin = false;
-    //   private String greeting = "";
-    //   private Map<String, MyRoles> mapOfUsers;  //needs its own wrapper, really...or something
-    //   private String duke;
     public ControllerToken() {  //would like to make private
-        log.severe("new token, default");
+        log.info(ControllerToken.class.getName() + "\tnew..");
     }
 
     public void initRequest(HttpServletRequest req) {
-        log.info("initRequest....");
+        log.info(ControllerToken.class.getName() + "\tinitRequest..");
         Enumeration<String> attributes = req.getAttributeNames();
         Enumeration<String> parameters = req.getParameterNames();
         try {
@@ -38,8 +31,7 @@ public class ControllerToken {
         } catch (NoSuchElementException nse) {
             log.info(nse.toString());
         }
-
-        log.info("...initRequest");
+        log.info(ControllerToken.class.getName() + "\t..initRequest");
     }
 
     private void traverse(Enumeration<String> a) throws NoSuchElementException {
@@ -54,13 +46,21 @@ public class ControllerToken {
         return myName;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
     public String getMyId() {
         return myId;
     }
 
     @Override
     public String toString() {
-        return "foo";
+        return ControllerToken.class.getName() + "\t\t" + login;
     }
 
 }

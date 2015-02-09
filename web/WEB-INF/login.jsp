@@ -12,11 +12,11 @@
         <p>
             my name is ${requestScope.controllerToken.myName}, ${requestScope.controllerToken.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
-            name <input type="text" name="name" value="" size='20' />
+            name <input type="text" name="login" value="" size='20' />
             <p>
                 <input type="submit">
             </p>
         </form>
-      
+      ${requestScope.controllerToken.login}
     </body>
 </html>

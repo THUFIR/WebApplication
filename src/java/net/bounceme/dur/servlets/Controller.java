@@ -17,17 +17,17 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.fine("controller processing request..");
-        String name = request.getParameter("name");
-        log.info("name:\t" + name + "\t\t" + Controller.class.getCanonicalName());
+        String login = request.getParameter("login");
+        log.info("login:\t" + login + "\t\t" + Controller.class.getCanonicalName());
         ControllerToken tempToken = (ControllerToken) request.getAttribute("controllerToken");
         if (tempToken == null) {
             token = new ControllerToken();
-            token.initRequest(request);
         } else {
             token = tempToken;
         }
         token.initRequest(request);
        // token.setName(name);
+        token.setLogin(login);
         request.setAttribute("myToken", token);
         LogTokens.logControllerToken(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
