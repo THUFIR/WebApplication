@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
@@ -30,15 +31,11 @@ public class Controller extends HttpServlet {
        // token.setName(name);
 //        token.setLogin(login);
 
-        String sessionID = makeUniqueString();
-        Hashtable sessionInfo = new Hashtable();
-        Hashtable globalTable = findTableStoringSessions();
-        globalTable.put(sessionID, sessionInfo);
-        Cookie sessionCookie = new Cookie("JSESSIONID", sessionID);
-        sessionCookie.setPath("/");
-        response.addCookie(sessionCookie);
+        
 
         request.setAttribute("controllerToken", token);
+        HttpSession session = request.getSession(false);
+        session.setAttribute("controller", token);
         LogTokens.logControllerToken(request, Controller.class.getName());
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
@@ -59,10 +56,7 @@ public class Controller extends HttpServlet {
     }
 
     private String makeUniqueString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "jdsakl4246";
     }
 
-    private Hashtable findTableStoringSessions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

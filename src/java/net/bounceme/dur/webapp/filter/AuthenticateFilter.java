@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import net.bounceme.dur.webapp.servlets.LogTokens;
 
 @WebFilter(
@@ -62,6 +63,8 @@ public class AuthenticateFilter implements Filter {
         //token.authenticate();
         //  token.setDuke(duke);
         req.setAttribute("filterToken", token);
+        HttpSession session = req.getSession(false);
+        session.setAttribute("authToken", token);
         LogTokens.logFilterToken(req, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
     }

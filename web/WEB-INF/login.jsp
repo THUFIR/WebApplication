@@ -16,5 +16,6 @@
             </p>
         </form>
         ${requestScope.authenticationToken.greeting}
+        ${sessionScope.authToken.greeting}
     </body>
 </html>
