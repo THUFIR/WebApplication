@@ -81,8 +81,8 @@ public class AuthenticationToken implements MyToken {
         log.info(mapOfUsers.toString());
         if (controllerToken == null) {
             log.info("null controller token in authenticate");
-          //  auth = false;
-          //  greeting = "";
+            auth = true;//false should be
+            greeting = "";  //make null?
         } else {
             login = controllerToken.getLogin();
             auth = mapOfUsers.containsKey(login);
