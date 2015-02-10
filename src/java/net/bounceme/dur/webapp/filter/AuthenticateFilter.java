@@ -13,10 +13,17 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.bounceme.dur.webapp.servlets.ControllerToken;
 import net.bounceme.dur.webapp.servlets.LogTokens;
+
+@WebFilter(
+        filterName = "authenticateFilter",
+        urlPatterns = "*.jsp",
+        initParams = @WebInitParam(name = "users", value = "bart;homer;marge")
+)
 
 public class AuthenticateFilter implements Filter {
 
@@ -53,7 +60,7 @@ public class AuthenticateFilter implements Filter {
         token.initRequest(req);
         token.setDuke(duke);
         //token.authenticate();
-      //  token.setDuke(duke);
+        //  token.setDuke(duke);
         req.setAttribute("filterToken", token);
         LogTokens.logFilterToken(req, AuthenticateFilter.class.getName());
         chain.doFilter(request, response);
