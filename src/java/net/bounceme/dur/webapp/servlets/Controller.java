@@ -1,6 +1,5 @@
 package net.bounceme.dur.webapp.servlets;
 
-import net.bounceme.dur.webapp.filter.AuthenticationToken;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
