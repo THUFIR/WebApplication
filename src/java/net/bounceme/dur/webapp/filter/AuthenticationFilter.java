@@ -34,10 +34,11 @@ public class AuthenticationFilter implements Filter {
     private FilterConfig filterConfig = null;
     private final Map<String, String> mapOfUsers = new HashMap<>();
     private final AuthenticationToken token = new AuthenticationToken();
-    private final String className = AuthenticationToken.class.getName();
+    private final String className = AuthenticationFilter.class.getName();
     private Map<String, String> parameters = new HashMap<>();
     private Map<String, String> users = new HashMap<>();
     private boolean auth = false;
+    private String contextPath;
 
     public AuthenticationFilter() {
     }
@@ -81,6 +82,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private void setToken(HttpServletRequest request) {
+        log.info(className + "\tsetToken..");
         initParams(request);
         String login = null;
         if (parameters.containsKey("login")) {
@@ -89,17 +91,25 @@ public class AuthenticationFilter implements Filter {
             if (users.containsValue(login)) {
                 auth = true;
                 token.setGreeting("welcome " + login + " you've been authorized.");
+                String image = contextPath + "/" + login + ".gif";
+                token.setImage(image);
             } else {
                 auth = false;
                 token.setGreeting("welcome " + login);
+                String image = contextPath + "/duke.gif";
+                token.setImage(image);
             }
         } else {
             auth = false;
+            String image = contextPath + "/duke.gif";
+            token.setImage(image);
         }
         HttpSession session = request.getSession(false);
         if (session != null) {
-            session.setAttribute("authorization", token);
+            session.setAttribute("auth", token);
         }
+        log.info(token.toString());
+        log.info(className + "\t..setToken");
     }
 
     @Override
@@ -124,14 +134,21 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("init filter");
+        log.info(className + "\tinit..");
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             log.fine("SessionCheckFilter:Initializing filter");
         } else {
             log.warning("null filterConfig");
         }
+        String context = filterConfig.getServletContext().getServletContextName();
+        String path = filterConfig.getServletContext().getContextPath();
+        contextPath = "http://localhost:8080" + context + path;
+        String duke = contextPath + "/duke.gif";
+        token.setDuke(duke);
         initFilterParams();
+        log.info(token.toString());
+        log.info(className + "\t..init");
     }
 
     @Override

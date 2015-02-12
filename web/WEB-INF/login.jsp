@@ -6,8 +6,7 @@
         <title>login</title>
     </head>
     <body>
-        <img src="${requestScope.filterToken.duke}"> 
-
+        <img src="${sessionScope.auth.duke}"> 
         my name is ${requestScope.controller.myName}, ${requestScope.controller.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             login: <input type="text" name="login" value="" size='20' />
@@ -15,6 +14,11 @@
                 <input type="submit">
             </p>
         </form>
-        ${sessionScope.authorization.greeting}
+        ${sessionScope.auth.greeting}
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <img src="${sessionScope.auth.image}"> 
     </body>
 </html>

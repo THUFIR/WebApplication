@@ -12,7 +12,8 @@ public class AuthenticationToken implements MyToken {
     private String cn = AuthenticationToken.class.getName();
     private boolean auth = false;
     private String greeting = "";
-   // private ControllerToken controllerToken = null;
+    // private ControllerToken controllerToken = null;
+    private String image = "duke";
 
     public AuthenticationToken() {  //would like to make private
         log.info(AuthenticationToken.class.getName() + "\tnew..");
@@ -66,8 +67,17 @@ public class AuthenticationToken implements MyToken {
         this.greeting = greeting;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 
+    public String getImage() {
+        return image;
+    }
 
-    
+    @Override
+    public String toString() {
+        return duke;
+    }
 
 }
