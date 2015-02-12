@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -16,56 +17,113 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import net.bounceme.dur.webapp.servlets.LogTokens;
 
 @WebFilter(
-        filterName = "authenticateFilter",
-        urlPatterns = "*.jsp",
-        initParams = @WebInitParam(name = "users", value = "bart;homer;marge")
-)
+        filterName = "authenticationFilter",
+        description = "authentication",
+        urlPatterns = "/*",
+        initParams = {
+            @WebInitParam(name = "1", value = "bart"),
+            @WebInitParam(name = "2", value = "homer")})
 
-public class AuthenticateFilter implements Filter {
+public class AuthenticationFilter implements Filter {
 
-    private static final Logger log = Logger.getLogger(AuthenticateFilter.class.getName());
+    private static final Logger log = Logger.getLogger(AuthenticationFilter.class.getName());
     private FilterConfig filterConfig = null;
     private Map<String, String> mapOfUsers = new HashMap<>();
     private AuthenticationToken token;// = new MyToken();
-    // private Enumeration<String> users = null;
+    private String className = AuthenticationToken.class.getName();
+    Map<String, String> parameters = new HashMap<>();
+    Map<String, String> users = new HashMap<>();
 
-    public AuthenticateFilter() {
+    public AuthenticationFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-        log.fine("do before processing..");
+        log.fine("do before processing..");  //init?
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response) throws IOException, ServletException {
         log.fine("do after processing");  //add image here?
     }
 
+    private void initFilterParams() {
+        log.info(className + "\tinitFilterParams..");
+        Enumeration parameterNames = filterConfig.getInitParameterNames();
+        users = new HashMap<>();  //?
+        String name = null;
+        String val = null;
+        while (parameterNames.hasMoreElements()) {
+            name = parameterNames.nextElement().toString();
+            val = filterConfig.getInitParameter(name);
+            users.put(name, val);
+        }
+        log.info(className + "\n" + users);
+        log.info(className + "\t..initFilterParams");
+    }
+
+    private void initParams(HttpServletRequest request) {
+        log.info(className + "\tinitParams..");
+        parameters = new HashMap<>();  //?
+        Enumeration<String> params = request.getParameterNames();
+        String name = null;
+        String val = null;
+        while (params.hasMoreElements()) {
+            name = params.nextElement();
+            val = request.getParameter(name);
+            parameters.put(name, val);
+        }
+        log.info(className + "\n" + parameters);
+        log.info(className + "\t..initParams");
+    }
+
+    private void auth(HttpServletRequest request) {
+        initParams(request);
+        String login = null;
+        if (parameters.containsKey("login")) {
+            login = parameters.get("login");
+            token.setLogin(login);
+            if (users.containsValue(login)) {
+                token.setGreeting("welcome " + login + " you've been authorized.");
+            } else {
+                token.setGreeting("welcome " + login);
+            }
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.setAttribute("authorization", token);
+            }
+        }
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.fine("do filter");
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        AuthenticationToken tempToken = (AuthenticationToken) req.getAttribute("filterToken");
-        if (tempToken == null) {
-            token = new AuthenticationToken();
-            token.initFilterConfig(filterConfig);
-        } else {
-            token = tempToken;
-        }
-        String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
-        token.initRequest(req);
-        token.setDuke(duke);
-        //token.authenticate();
-        //  token.setDuke(duke);
-        req.setAttribute("filterToken", token);
-        HttpSession session = req.getSession(false);
-        session.setAttribute("authToken", token);
-        LogTokens.logFilterToken(req, AuthenticateFilter.class.getName());
+        auth((HttpServletRequest) request);
+
+        /*
+         HttpServletRequest req = (HttpServletRequest) request;
+         HttpServletResponse resp = (HttpServletResponse) response;
+         AuthenticateToken tempToken = (AuthenticateToken) req.getAttribute("filterToken");
+         if (tempToken == null) {
+         token = new AuthenticateToken();
+         //          token.initFilterConfig(filterConfig);
+         } else {
+         token = tempToken;
+         }
+         String login = req.getParameter("login");
+         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
+         // token.initRequest(req);
+         token.setDuke(duke);
+         //token.authenticate();
+         //  token.setDuke(duke);
+         req.setAttribute("filterToken", token);
+         HttpSession session = req.getSession(false);
+         if (session != null) {
+         session.setAttribute("authToken", token);
+         }
+         LogTokens.logFilterRequest(req, AuthenticateFilter.class.getName());
+         */
         chain.doFilter(request, response);
     }
 
@@ -91,18 +149,12 @@ public class AuthenticateFilter implements Filter {
             log.warning("null filterConfig");
         }
         token = new AuthenticationToken();
-        token.initFilterConfig(getFilterConfig());
+        initFilterParams();
     }
 
     @Override
     public String toString() {
-        if (filterConfig == null) {
-            return ("SessionCheckFilter()");
-        }
-        StringBuilder sb = new StringBuilder("SessionCheckFilter(");
-        sb.append(filterConfig);
-        sb.append(")");
-        return (sb.toString());
+        return token.toString();
     }
 
     private void sendProcessingError(Throwable t, ServletResponse response) {

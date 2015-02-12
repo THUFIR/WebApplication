@@ -1,8 +1,9 @@
-package net.bounceme.dur.webapp.servlets;
+package net.bounceme.dur.webapp;
 
 import net.bounceme.dur.webapp.filter.AuthenticationToken;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import net.bounceme.dur.webapp.servlets.ControllerToken;
 
 public class LogTokens {
 
@@ -11,10 +12,20 @@ public class LogTokens {
     private LogTokens() {
     }
 
-    public static void logFilterToken(HttpServletRequest request, String className) {
+    public static void logFilterRequest(HttpServletRequest request, String className) {
         log.info(LogTokens.class.getName() + "\tlogFilterToken..");
         log.info(className);
         AuthenticationToken token = (AuthenticationToken) request.getAttribute("filterToken");
+        try {
+            log.info(token.toString());
+        } catch (NullPointerException npe) {
+            log.info("null token in " + className);
+        }
+        log.info(LogTokens.class.getName() + "\t..logFilterToken");
+    }
+
+    public static void logAuthenticateToken(AuthenticationToken token, String className) {
+        log.info(LogTokens.class.getName() + "\tlogFilterToken..");
         try {
             log.info(token.toString());
         } catch (NullPointerException npe) {

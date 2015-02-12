@@ -7,7 +7,6 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @WebServlet(
         name = "controller",
@@ -15,10 +14,7 @@ import javax.servlet.http.HttpSession;
         urlPatterns = "/controller",
         initParams = {
             @WebInitParam(name = "myName", value = "thufir"),
-            @WebInitParam(name = "myId", value = "bjfdkl34363fjsl"),
-            @WebInitParam(name = "login", value = ""),
-            @WebInitParam(name = "bart", value = "bart"),
-            @WebInitParam(name = "homer", value = "homer")})
+            @WebInitParam(name = "myId", value = "bjfdkl34363fjsl")})
 
 public class Controller extends HttpServlet {
 
@@ -28,22 +24,27 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info(className + "\tcontroller processing request..");
-        String login = request.getParameter("login");
-        String myName = request.getParameter("myName");
-        String myId = request.getParameter("myId");
-        log.info("login:\t" + login + "\t\t" + Controller.class.getCanonicalName());
-        ControllerToken tempToken = (ControllerToken) request.getSession().getAttribute("controllerToken");
-        if (tempToken == null) {
-            token = new ControllerToken();
-        } else {
-            token = tempToken;
-            token.initRequest(request);
-            token.setLogin(login);
-            token.setMyName(myName);
-            token.setMyId(myId);
-        }
-        request.getSession(false).setAttribute("controller", token);
-        LogTokens.logControllerToken(token, Controller.class.getName());
+
+        
+        
+        /*
+         String login = request.getParameter("login");
+         String myName = request.getParameter("myName");
+         String myId = request.getParameter("myId");
+         log.info("login:\t" + login + "\t\t" + Controller.class.getCanonicalName());
+         ControllerToken tempToken = (ControllerToken) request.getSession().getAttribute("controllerToken");
+         if (tempToken == null) {
+         token = new ControllerToken();
+         } else {
+         token = tempToken;
+         token.initRequest(request);
+         token.setLogin(login);
+         token.setMyName(myName);
+         token.setMyId(myId);
+         }
+         request.getSession(false).setAttribute("controller", token);
+         LogTokens.logControllerToken(token, Controller.class.getName());
+         */
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
     }
 
