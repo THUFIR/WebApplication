@@ -10,15 +10,13 @@ import javax.servlet.http.HttpSession;
 
 public class AuthenticationToken implements MyToken {
 
-    private static Logger log = Logger.getLogger(AuthenticationToken.class.getName());
+    private static final Logger log = Logger.getLogger(AuthenticationToken.class.getName());
     private Map<String, MyRoles> mapOfUsers;
     private String duke = "duke..";
     private String login = "nemo";
     private String className = AuthenticationToken.class.getName();
     private boolean auth = false;
     private String greeting = "";
-    // private ControllerToken controllerToken = null;
-    private String image = "duke";
     private Map<String, String> users = new HashMap<>();
     private Map<String, String> parameters = new HashMap<>();
     private String contextPath;
@@ -27,16 +25,8 @@ public class AuthenticationToken implements MyToken {
         log.info(AuthenticationToken.class.getName() + "\tnew..");
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    public void initFilterParams(FilterConfig filterConfig) {
-        log.info(className + "\tinitFilterParams..");
+    public void initFilterConfig(FilterConfig filterConfig) {
+        log.info(className + "\tinitFilterConfig..");
         Enumeration parameterNames = filterConfig.getInitParameterNames();
         users = new HashMap<>();  //?
         String name = null;
@@ -47,7 +37,7 @@ public class AuthenticationToken implements MyToken {
             users.put(name, val);
         }
         log.info(className + "\n" + users);
-        log.info(className + "\t..initFilterParams");
+        log.info(className + "\t..initFilterConfig");
     }
 
     private void initParams(HttpServletRequest request) {
@@ -93,26 +83,6 @@ public class AuthenticationToken implements MyToken {
         log.info(className + "\t..setToken");
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public Map<String, MyRoles> getMapOfUsers() {
         return mapOfUsers;
     }

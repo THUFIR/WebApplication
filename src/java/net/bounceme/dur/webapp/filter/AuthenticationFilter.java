@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,7 +17,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @WebFilter(
         filterName = "authenticationFilter",
@@ -85,7 +83,7 @@ public class AuthenticationFilter implements Filter {
         contextPath = "http://localhost:8080" + context + path;
         String duke = contextPath + "/duke.gif";
         token.setDuke(duke);
-        token.initFilterParams(filterConfig);
+        token.initFilterConfig(filterConfig);
         log.info(token.toString());
         log.info(className + "\t..init");
     }
