@@ -51,68 +51,10 @@ public class AuthenticationFilter implements Filter {
         log.fine("do after processing");  //add image here?
     }
 
-    private void initFilterParams() {
-        log.info(className + "\tinitFilterParams..");
-        Enumeration parameterNames = filterConfig.getInitParameterNames();
-        users = new HashMap<>();  //?
-        String name = null;
-        String val = null;
-        while (parameterNames.hasMoreElements()) {
-            name = parameterNames.nextElement().toString();
-            val = filterConfig.getInitParameter(name);
-            users.put(name, val);
-        }
-        log.info(className + "\n" + users);
-        log.info(className + "\t..initFilterParams");
-    }
-
-    private void initParams(HttpServletRequest request) {
-        log.info(className + "\tinitParams..");
-        parameters = new HashMap<>();  //?
-        Enumeration<String> params = request.getParameterNames();
-        String name = null;
-        String val = null;
-        while (params.hasMoreElements()) {
-            name = params.nextElement();
-            val = request.getParameter(name);
-            parameters.put(name, val);
-        }
-        log.info(className + "\n" + parameters);
-        log.info(className + "\t..initParams");
-    }
-
-    private void setToken(HttpServletRequest request) {
-        log.info(className + "\tsetToken..");
-        initParams(request);
-        String login = null;
-        if (parameters.containsKey("login")) {
-            login = parameters.get("login").toLowerCase();
-            token.setLogin(login);
-            if (users.containsValue(login)) {
-                auth = true;
-                token.setGreeting("welcome " + login + " you've been authorized.");
-                String image = contextPath + "/" + login + ".gif";
-            } else {
-                auth = false;
-                token.setGreeting("welcome " + login);
-                String image = contextPath + "/duke.gif";
-            }
-        } else {
-            auth = false;
-            String image = contextPath + "/duke.gif";
-        }
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.setAttribute("auth", token);
-        }
-        log.info(token.toString());
-        log.info(className + "\t..setToken");
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info(className + "do filter..");
-        setToken((HttpServletRequest) request);
+        token.setToken((HttpServletRequest) request);
         chain.doFilter(request, response);
         log.info(className + "..do filter");
     }
@@ -143,7 +85,7 @@ public class AuthenticationFilter implements Filter {
         contextPath = "http://localhost:8080" + context + path;
         String duke = contextPath + "/duke.gif";
         token.setDuke(duke);
-        initFilterParams();
+        token.initFilterParams(filterConfig);
         log.info(token.toString());
         log.info(className + "\t..init");
     }

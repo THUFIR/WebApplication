@@ -1,7 +1,12 @@
 package net.bounceme.dur.webapp.tokens;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class AuthenticationToken implements MyToken {
 
@@ -9,16 +14,105 @@ public class AuthenticationToken implements MyToken {
     private Map<String, MyRoles> mapOfUsers;
     private String duke = "duke..";
     private String login = "nemo";
-    private String cn = AuthenticationToken.class.getName();
+    private String className = AuthenticationToken.class.getName();
     private boolean auth = false;
     private String greeting = "";
     // private ControllerToken controllerToken = null;
     private String image = "duke";
+    private Map<String, String> users = new HashMap<>();
+    private Map<String, String> parameters = new HashMap<>();
+    private String contextPath;
 
     public AuthenticationToken() {  //would like to make private
         log.info(AuthenticationToken.class.getName() + "\tnew..");
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    public void initFilterParams(FilterConfig filterConfig) {
+        log.info(className + "\tinitFilterParams..");
+        Enumeration parameterNames = filterConfig.getInitParameterNames();
+        users = new HashMap<>();  //?
+        String name = null;
+        String val = null;
+        while (parameterNames.hasMoreElements()) {
+            name = parameterNames.nextElement().toString();
+            val = filterConfig.getInitParameter(name);
+            users.put(name, val);
+        }
+        log.info(className + "\n" + users);
+        log.info(className + "\t..initFilterParams");
+    }
+
+    private void initParams(HttpServletRequest request) {
+        log.info(className + "\tinitParams..");
+        parameters = new HashMap<>();  //?
+        Enumeration<String> params = request.getParameterNames();
+        String name = null;
+        String val = null;
+        while (params.hasMoreElements()) {
+            name = params.nextElement();
+            val = request.getParameter(name);
+            parameters.put(name, val);
+        }
+        log.info(className + "\n" + parameters);
+        log.info(className + "\t..initParams");
+    }
+
+    public void setToken(HttpServletRequest request) {
+        log.info(className + "\tsetToken..");
+        initParams(request);
+        String login = null;
+        if (parameters.containsKey("login")) {
+            login = parameters.get("login").toLowerCase();
+            setLogin(login);
+            if (users.containsValue(login)) {
+                auth = true;
+                setGreeting("welcome " + login + " you've been authorized.");
+                String image = contextPath + "/" + login + ".gif";
+            } else {
+                auth = false;
+                setGreeting("welcome " + login);
+                String image = contextPath + "/duke.gif";
+            }
+        } else {
+            auth = false;
+            String image = contextPath + "/duke.gif";
+        }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.setAttribute("auth", this); //??
+        }
+        log.info(toString());
+        log.info(className + "\t..setToken");
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public Map<String, MyRoles> getMapOfUsers() {
         return mapOfUsers;
     }
@@ -44,11 +138,11 @@ public class AuthenticationToken implements MyToken {
     }
 
     public String getCn() {
-        return cn;
+        return className;
     }
 
     public void setCn(String cn) {
-        this.cn = cn;
+        this.className = cn;
     }
 
     public boolean isAuth() {
