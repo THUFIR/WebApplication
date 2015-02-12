@@ -1,9 +1,9 @@
-package net.bounceme.dur.webapp.filter;
+package net.bounceme.dur.webapp.tokens;
 
 import java.util.Map;
 import java.util.logging.Logger;
-import net.bounceme.dur.webapp.MyToken;
-import net.bounceme.dur.webapp.servlets.MyRoles;
+import net.bounceme.dur.webapp.tokens.MyToken;
+import net.bounceme.dur.webapp.tokens.MyRoles;
 
 public class AuthenticationToken implements MyToken {
 

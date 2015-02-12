@@ -1,5 +1,5 @@
 
-package net.bounceme.dur.webapp;
+package net.bounceme.dur.webapp.tokens;
 
 
 public interface MyToken {

@@ -8,7 +8,7 @@
     <body>
         <img src="${requestScope.filterToken.duke}"> 
 
-        my name is ${requestScope.controllerToken.myName}, ${requestScope.controllerToken.myId}, what's yours?
+        my name is ${requestScope.controller.myName}, ${requestScope.controller.myId}, what's yours?
         <form name="user_name_form" action="controller" method="POST">
             login: <input type="text" name="login" value="" size='20' />
             <p>

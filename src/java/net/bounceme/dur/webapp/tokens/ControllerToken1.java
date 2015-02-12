@@ -1,22 +1,22 @@
-package net.bounceme.dur.webapp.servlets;
+package net.bounceme.dur.webapp.tokens;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import net.bounceme.dur.webapp.MyToken;
+import net.bounceme.dur.webapp.tokens.MyToken;
 
-public class ControllerToken implements MyToken {
+public class ControllerToken1 implements MyToken {
 
-    private static Logger log = Logger.getLogger(ControllerToken.class.getName());
+    private static Logger log = Logger.getLogger(ControllerToken1.class.getName());
 
     private String myName = "someone";
     private String myId = "5232435";
     private String login = "nemo";
-    private final String className = ControllerToken.class.getName();
+    private final String className = ControllerToken1.class.getName();
 
-    public ControllerToken() {  //would like to make private
-        log.info(ControllerToken.class.getName() + "\tnew..");
+    public ControllerToken1() {  //would like to make private
+        log.info(ControllerToken1.class.getName() + "\tnew..");
     }
 
     public void initRequest(HttpServletRequest req) {
@@ -67,7 +67,7 @@ public class ControllerToken implements MyToken {
 
     @Override
     public String toString() {
-        return ControllerToken.class.getName() + "\t\t" + myName + myId + login;
+        return ControllerToken1.class.getName() + "\t\t" + myName + myId + login;
     }
 
     void setMyName(String myName) {

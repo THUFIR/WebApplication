@@ -1,5 +1,6 @@
 package net.bounceme.dur.webapp.filter;
 
+import net.bounceme.dur.webapp.tokens.AuthenticationToken;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -98,33 +99,10 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.fine("do filter");
+        log.info(className + "do filter..");
         setToken((HttpServletRequest) request);
-
-        /*
-         HttpServletRequest req = (HttpServletRequest) request;
-         HttpServletResponse resp = (HttpServletResponse) response;
-         AuthenticateToken tempToken = (AuthenticateToken) req.getAttribute("filterToken");
-         if (tempToken == null) {
-         token = new AuthenticateToken();
-         //          token.initFilterConfig(filterConfig);
-         } else {
-         token = tempToken;
-         }
-         String login = req.getParameter("login");
-         String duke = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getServletContext().getContextPath() + "/duke.gif";
-         // token.initRequest(req);
-         token.setDuke(duke);
-         //token.authenticate();
-         //  token.setDuke(duke);
-         req.setAttribute("filterToken", token);
-         HttpSession session = req.getSession(false);
-         if (session != null) {
-         session.setAttribute("authToken", token);
-         }
-         LogTokens.logFilterRequest(req, AuthenticateFilter.class.getName());
-         */
         chain.doFilter(request, response);
+        log.info(className + "..do filter");
     }
 
     public FilterConfig getFilterConfig() {

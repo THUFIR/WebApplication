@@ -1,4 +1,4 @@
-package net.bounceme.dur.webapp.servlets;
+package net.bounceme.dur.webapp.tokens;
 
 public enum MyRoles {
     USER,MANAGER;

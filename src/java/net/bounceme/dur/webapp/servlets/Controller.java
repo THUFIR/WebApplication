@@ -1,5 +1,6 @@
 package net.bounceme.dur.webapp.servlets;
 
+import net.bounceme.dur.webapp.tokens.ControllerToken;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,33 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     private static final Logger log = Logger.getLogger(Controller.class.getName());
-    private ControllerToken token;// = new MyToken();
+    private ControllerToken token = new ControllerToken();
     private String className = Controller.class.getName();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.info(className + "\tcontroller processing request..");
-
-        
-        
-        /*
-         String login = request.getParameter("login");
-         String myName = request.getParameter("myName");
-         String myId = request.getParameter("myId");
-         log.info("login:\t" + login + "\t\t" + Controller.class.getCanonicalName());
-         ControllerToken tempToken = (ControllerToken) request.getSession().getAttribute("controllerToken");
-         if (tempToken == null) {
-         token = new ControllerToken();
-         } else {
-         token = tempToken;
-         token.initRequest(request);
-         token.setLogin(login);
-         token.setMyName(myName);
-         token.setMyId(myId);
-         }
-         request.getSession(false).setAttribute("controller", token);
-         LogTokens.logControllerToken(token, Controller.class.getName());
-         */
+        log.info(className + "\tcontroller processRequest..");
+        String myName = getServletConfig().getInitParameter("myName");
+        String myId = getServletConfig().getInitParameter("myId");
+        token.setMyName(myName);
+        token.setMyId(myId);
+        request.setAttribute("controller", token);
         request.getRequestDispatcher("/WEB-INF/" + "login.jsp").forward(request, response);
+        log.info(className + "\tcontroller ..processRequest");
     }
 
     @Override
@@ -61,10 +47,6 @@ public class Controller extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "controller";
-    }
-
-    private String makeUniqueString() {
-        return "jdsakl4246";
     }
 
 }

@@ -1,9 +1,7 @@
-package net.bounceme.dur.webapp;
+package net.bounceme.dur.webapp.tokens;
 
-import net.bounceme.dur.webapp.filter.AuthenticationToken;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import net.bounceme.dur.webapp.servlets.ControllerToken;
 
 public class LogTokens {
 
