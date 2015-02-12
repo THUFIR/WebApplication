@@ -23,10 +23,9 @@ public class LogTokens {
         log.info(LogTokens.class.getName() + "\t..logFilterToken");
     }
 
-    public static void logControllerToken(HttpServletRequest request, String className) {
+    public static void logControllerToken(ControllerToken token, String className) {
         log.info(LogTokens.class.getName() + "\tlogControllerToken..");
         log.info(className);
-        ControllerToken token = (ControllerToken) request.getAttribute("controllerToken");
         try {
             log.info(token.toString());
         } catch (NullPointerException npe) {

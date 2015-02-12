@@ -6,20 +6,21 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import net.bounceme.dur.webapp.MyToken;
 
-public class ControllerToken implements MyToken{
+public class ControllerToken implements MyToken {
 
     private static Logger log = Logger.getLogger(ControllerToken.class.getName());
 
     private String myName = "someone";
-    private String login = "nemo";
     private String myId = "5232435";
+    private String login = "nemo";
+    private final String className = ControllerToken.class.getName();
 
     public ControllerToken() {  //would like to make private
         log.info(ControllerToken.class.getName() + "\tnew..");
     }
 
     public void initRequest(HttpServletRequest req) {
-        log.info(ControllerToken.class.getName() + "\tinitRequest..");
+        log.info(className + "\tinitRequest..");
         Enumeration<String> attributes = req.getAttributeNames();
         Enumeration<String> parameters = req.getParameterNames();
         try {
@@ -32,19 +33,20 @@ public class ControllerToken implements MyToken{
         } catch (NoSuchElementException nse) {
             log.warning(nse.toString());
         }
+        myName = req.getParameter("myName");
+        myId = req.getParameter("myId");
         login = req.getParameter("login");
-        log.info(ControllerToken.class.getName() + "\t..initRequest");
+        log.info(className + "\t..initRequest");
     }
 
     private void traverse(Enumeration<String> a) throws NoSuchElementException {
-        log.info(ControllerToken.class.getName() + "\ttraverse..");
-
+        log.info(className + "\ttraverse..");
         String string = null;
         while (a.hasMoreElements()) {
             string = a.nextElement();
             log.info(string);
         }
-        log.info(ControllerToken.class.getName() + "\t..traverse");
+        log.info(className + "\t..traverse");
     }
 
     public String getMyName() {
@@ -65,7 +67,15 @@ public class ControllerToken implements MyToken{
 
     @Override
     public String toString() {
-        return ControllerToken.class.getName() + "\t\t" + login;
+        return ControllerToken.class.getName() + "\t\t" + myName + myId + login;
+    }
+
+    void setMyName(String myName) {
+        this.myName = myName;
+    }
+
+    void setMyId(String myId) {
+        this.myId = myId;
     }
 
 }

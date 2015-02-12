@@ -8,26 +8,6 @@
         <param-name>me</param-name>
         <param-value>thufir</param-value>
     </context-param>
-    <filter>
-        <filter-name>AuthenticateFilter</filter-name>
-        <filter-class>net.bounceme.dur.webapp.filter.AuthenticateFilter</filter-class>
-        <init-param>
-            <param-name>1</param-name>
-            <param-value>bart</param-value>
-        </init-param>
-        <init-param>
-            <param-name>2</param-name>
-            <param-value>homer</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthenticateFilter</filter-name>
-        <url-pattern>*.jsp</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
-        <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
     <session-config>
         <session-timeout>
             30
