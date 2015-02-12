@@ -1,7 +1,6 @@
 package net.bounceme.dur.webapp.tokens;
 
 import java.util.logging.Logger;
-import net.bounceme.dur.webapp.tokens.MyToken;
 
 public class ControllerToken implements MyToken {
 

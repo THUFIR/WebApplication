@@ -37,6 +37,7 @@ public class AuthenticationFilter implements Filter {
     private final String className = AuthenticationToken.class.getName();
     private Map<String, String> parameters = new HashMap<>();
     private Map<String, String> users = new HashMap<>();
+    private boolean auth = false;
 
     public AuthenticationFilter() {
     }
@@ -86,14 +87,18 @@ public class AuthenticationFilter implements Filter {
             login = parameters.get("login").toLowerCase();
             token.setLogin(login);
             if (users.containsValue(login)) {
+                auth = true;
                 token.setGreeting("welcome " + login + " you've been authorized.");
             } else {
+                auth = false;
                 token.setGreeting("welcome " + login);
             }
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.setAttribute("authorization", token);
-            }
+        } else {
+            auth = false;
+        }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.setAttribute("authorization", token);
         }
     }
 
