@@ -15,7 +15,6 @@
                 <input type="submit">
             </p>
         </form>
-        ${requestScope.authenticationToken.greeting}
-        ${sessionScope.authToken.greeting}
+        ${sessionScope.authorization.greeting}
     </body>
 </html>

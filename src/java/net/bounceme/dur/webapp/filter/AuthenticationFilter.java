@@ -31,11 +31,11 @@ public class AuthenticationFilter implements Filter {
 
     private static final Logger log = Logger.getLogger(AuthenticationFilter.class.getName());
     private FilterConfig filterConfig = null;
-    private Map<String, String> mapOfUsers = new HashMap<>();
-    private AuthenticationToken token;// = new MyToken();
-    private String className = AuthenticationToken.class.getName();
-    Map<String, String> parameters = new HashMap<>();
-    Map<String, String> users = new HashMap<>();
+    private final Map<String, String> mapOfUsers = new HashMap<>();
+    private final AuthenticationToken token = new AuthenticationToken();
+    private final String className = AuthenticationToken.class.getName();
+    private Map<String, String> parameters = new HashMap<>();
+    private Map<String, String> users = new HashMap<>();
 
     public AuthenticationFilter() {
     }
@@ -78,11 +78,11 @@ public class AuthenticationFilter implements Filter {
         log.info(className + "\t..initParams");
     }
 
-    private void auth(HttpServletRequest request) {
+    private void setToken(HttpServletRequest request) {
         initParams(request);
         String login = null;
         if (parameters.containsKey("login")) {
-            login = parameters.get("login");
+            login = parameters.get("login").toLowerCase();
             token.setLogin(login);
             if (users.containsValue(login)) {
                 token.setGreeting("welcome " + login + " you've been authorized.");
@@ -99,7 +99,7 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.fine("do filter");
-        auth((HttpServletRequest) request);
+        setToken((HttpServletRequest) request);
 
         /*
          HttpServletRequest req = (HttpServletRequest) request;
@@ -148,7 +148,6 @@ public class AuthenticationFilter implements Filter {
         } else {
             log.warning("null filterConfig");
         }
-        token = new AuthenticationToken();
         initFilterParams();
     }
 
