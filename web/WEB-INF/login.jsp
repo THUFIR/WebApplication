@@ -19,6 +19,5 @@
         <p></p>
         <p></p>
         <p></p>
-        <img src="${sessionScope.auth.image}"> 
     </body>
 </html>

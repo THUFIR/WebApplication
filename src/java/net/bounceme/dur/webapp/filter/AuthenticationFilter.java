@@ -92,17 +92,14 @@ public class AuthenticationFilter implements Filter {
                 auth = true;
                 token.setGreeting("welcome " + login + " you've been authorized.");
                 String image = contextPath + "/" + login + ".gif";
-                token.setImage(image);
             } else {
                 auth = false;
                 token.setGreeting("welcome " + login);
                 String image = contextPath + "/duke.gif";
-                token.setImage(image);
             }
         } else {
             auth = false;
             String image = contextPath + "/duke.gif";
-            token.setImage(image);
         }
         HttpSession session = request.getSession(false);
         if (session != null) {

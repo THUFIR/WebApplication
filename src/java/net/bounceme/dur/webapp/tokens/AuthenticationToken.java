@@ -67,14 +67,6 @@ public class AuthenticationToken implements MyToken {
         this.greeting = greeting;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
     @Override
     public String toString() {
         return duke;
