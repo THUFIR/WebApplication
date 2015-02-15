@@ -15,9 +15,8 @@
             </p>
         </form>
         ${sessionScope.auth.greeting}
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-    </body>
+        <p/>
+        fragment goes here with EL...
+        <p/>
+</body>
 </html>

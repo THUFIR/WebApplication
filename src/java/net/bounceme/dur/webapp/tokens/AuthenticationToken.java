@@ -83,14 +83,6 @@ public class AuthenticationToken implements MyToken {
         log.info(className + "\t..setToken");
     }
 
-    public Map<String, MyRoles> getMapOfUsers() {
-        return mapOfUsers;
-    }
-
-    public void setMapOfUsers(Map<String, MyRoles> mapOfUsers) {
-        this.mapOfUsers = mapOfUsers;
-    }
-
     public String getDuke() {
         return duke;
     }
